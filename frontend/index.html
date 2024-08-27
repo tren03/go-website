@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>My Blog</title>
+    <title>Fun-articles</title>
     <style>
         body {
             font-family: "Courier New", Courier, monospace;
-            font-size: 18px;
+            font-size: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -18,36 +18,43 @@
             width: 100%;
             background-color: #333;
             color: #fff;
-            padding: 15px;
+            padding: 20px;
             text-align: center;
         }
         nav a {
             color: #fff;
             text-decoration: none;
-            margin: 0 10px;
+            margin: 0 15px;
+            font-size: 22px;
         }
         .post-container {
-            width: 80%; /* Controls the width of the post container */
-            max-width: 800px; /* Ensures it does not exceed this width */
-            margin: 0 auto; /* Centers the container horizontally */
+            width: 80%;
+            max-width: 800px;
+            margin: 0 auto;
             text-align: center;
         }
         .post {
-            margin: 20px auto; /* Centers each post horizontally within the container */
-            padding: 15px;
+            margin: 20px auto;
+            padding: 20px;
             background-color: #ffffff;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 90%; /* Controls the width of each post, less than the container width */
-            max-width: 600px; /* Ensures posts do not exceed this width */
+            width: 90%;
+            max-width: 600px;
+            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .post:hover {
+            background-color: #f9f9f9;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+            transform: scale(1.05); /* Slightly increases the size of the post on hover */
         }
         .post h2 {
-            font-size: 24px;
-            margin-bottom: 10px;
+            font-size: 28px;
+            margin-bottom: 15px;
         }
         .post p {
-            font-size: 18px;
-            line-height: 1.6;
+            font-size: 20px;
+            line-height: 1.8;
         }
     </style>
 </head>
@@ -67,11 +74,11 @@
                     if (!response.ok) {
                         throw new Error("Network response was not ok");
                     }
-                    return response.text(); // Converts the bytes received into HTML
+                    return response.text();
                 })
                 .then((html) => {
-                    document.getElementById("posts-container").innerHTML = html; // Inserts the HTML into the container
-                    attachEventListeners(); // Add event listeners after posts are rendered
+                    document.getElementById("posts-container").innerHTML = html;
+                    attachEventListeners();
                 })
                 .catch((error) => {
                     console.error("There was a problem with the fetch operation:", error);
@@ -79,10 +86,10 @@
         });
 
         function attachEventListeners() {
-            const posts = document.querySelectorAll('.post'); // Get all elements with the class 'post'
+            const posts = document.querySelectorAll('.post');
             posts.forEach((post) => {
                 post.addEventListener('click', function() {
-                    console.log('Post clicked:', post.id); // Logs the ID of the clicked post
+                    console.log('Post clicked:', post.id);
                 });
             });
         }
