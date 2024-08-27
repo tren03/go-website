@@ -1,4 +1,4 @@
-package main
+package handlers
 
 import (
 	"bytes"
@@ -9,7 +9,7 @@ import (
 	"go-server/shared"
 )
 
-func handleRoot(w http.ResponseWriter,r *http.Request){
+func HandleRoot(w http.ResponseWriter,r *http.Request){
 	fmt.Fprintln(w,"welcome to root")
 }
 
@@ -18,11 +18,12 @@ func handleRoot(w http.ResponseWriter,r *http.Request){
 // }
 
 
-func handleViewPosts(posts []shared.Post) http.HandlerFunc{
+func HandleViewPosts(posts []shared.Post) http.HandlerFunc{
 	return func(w http.ResponseWriter,r *http.Request){
 		log.Println("hit posts")
 		tmpl, err:= template.ParseFiles("templates/post.html")
 		if err!=nil{
+			log.Println("Error while parsing",err)
 			http.Error(w,"Error while parsing",http.StatusInternalServerError)
 			return
 		}

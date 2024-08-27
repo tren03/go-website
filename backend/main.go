@@ -5,15 +5,17 @@ import (
 	// "fmt"
 	"log"
 	"net/http"
-	"time"
 	"os"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
-	_"github.com/lib/pq"
+	_ "github.com/lib/pq"
 
-	"go-server/shared"
 	"go-server/database"
+	"go-server/handlers"
+	"go-server/shared"
+
 	"github.com/joho/godotenv"
 )
 
@@ -91,10 +93,10 @@ func main(){
 	
 
 	// handles /
-	router.Get("/",handleRoot)
+	router.Get("/",handlers.HandleRoot)
 
 	// handles /posts
-	router.Get("/posts",handleViewPosts(posts))
+	router.Get("/posts",handlers.HandleViewPosts(posts))
 
 	
 
