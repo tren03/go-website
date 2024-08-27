@@ -51,10 +51,10 @@ func PutAllToPostsToArray(db *sql.DB) []shared.Post{
 		allPosts = append(allPosts, article)
 	}
 
-	for _,val := range allPosts{
-		fmt.Println("works")
-		fmt.Println(val)
-	}
+	// for _,val := range allPosts{
+	// 	fmt.Println("works")
+	// 	fmt.Println(val)
+	// }
 
 
 	// Check for any error after finishing the iteration

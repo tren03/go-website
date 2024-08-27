@@ -2,11 +2,13 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	// "fmt"
 	"log"
 	"net/http"
 	"os"
-	"time"
+
+	// "time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
@@ -14,7 +16,8 @@ import (
 
 	"go-server/database"
 	"go-server/handlers"
-	"go-server/shared"
+
+	// "go-server/shared"
 
 	"github.com/joho/godotenv"
 )
@@ -34,7 +37,7 @@ func main(){
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
-
+	
 	connStr:=os.Getenv("CONN_STR")
 	
 	
@@ -43,31 +46,13 @@ func main(){
 		log.Fatalln("Could not connect to Database:", err)
 	}
 
-	// post1 := Post{
-	// 	ID:    2,
-	// 	Title: "Introduction to Go",
-	// 	Url:   "https://cpu.land",
-	// 	Body:  "Go is an open-source programming language designed for simplicity and efficiency. In this post, we will cover the basics of Go, including its syntax, types, and how to write a simple Go program.",
-	// 	Date: time.Now(),
-	// }
-
-	//Sample Post 2
-	// post2 := Post{
-	// 	ID:    2,
-	// 	Title: "Understanding HTTP in Go",
-	// 	Url:   "http://antirez.com/news/108",
-	// 	Body:  "In this post, we will explore how to build HTTP servers in Go. We will look at how to create routes, handle requests, and return responses. By the end, you'll have a good understanding of how to work with HTTP in Go.",
-	// 	Date: time.Now(),
-	// }
-
-
 	// createTable(db)
-	database.AddPost(db,shared.Post{
-        Title: "Sample Title",
-        Url:   "http://example.com/sample-url",
-        Body:  "This is a sample body for testing purposes.",
-        Date:  time.Now(), // Current time
-    })	
+	// database.AddPost(db,shared.Post{
+    //     Title: "Sample Title",
+    //     Url:   "http://example.com/sample-url",
+    //     Body:  "This is a sample body for testing purposes.",
+    //     Date:  time.Now(), // Current time
+    // })	
 	// delPost(db,1)
 	// putAllToPostsToArray(db)
 	
@@ -95,12 +80,20 @@ func main(){
 	// handles /
 	router.Get("/",handlers.HandleRoot)
 
-	// handles /posts
+	// handles /posts -> this gets hit by the index.html rendered by the root
 	router.Get("/posts",handlers.HandleViewPosts(posts))
+
+	router.Get("/loginView",handlers.HandleLoginView)
+
+	// handles /login to auth myself
+	router.Post("/login",handlers.HandleLogin)
+
+	// handles /admin to edit posts
+	router.Get("/admin",handlers.HandleAdminView)
 
 	
 
-
+	fmt.Println("server started at 8080")
 	http.ListenAndServe(":8080", router)
 
 
