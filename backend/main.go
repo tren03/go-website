@@ -36,7 +36,7 @@ func main(){
 	}
 
 	connStr:=os.Getenv("CONN_STR")
-	// connStr := "postgresql://postgres.kmeunchgnnjqnmwusvbn:IWvlfGXg8yLQrIA3@aws-0-ap-south-1.pooler.supabase.com:6543/postgres"
+	
 	
 	db,err := sql.Open("postgres", connStr)
 	if err != nil {
