@@ -1,0 +1,6 @@
+chose to build the same project with vanilla js and then with a react framework later
+for vanilla js decided to do server side rendering of the html pages
+used clousure funcs to send data to handler funcs 
+
+shifted to chi router to handle cors easier and have a http router to have better routing
+
