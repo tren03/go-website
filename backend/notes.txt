@@ -4,3 +4,9 @@ used clousure funcs to send data to handler funcs
 
 shifted to chi router to handle cors easier and have a http router to have better routing
 
+supabase doesnt have official go docs, so going for third party libs (death)
+
+supabase just gives a postgress uri, and we can use a native golang lib to access the data, peacful
+
+so i downloaded different libs to check them out, but when i comment them in my project, run vendor and tidy, they are removed, package system is too good damn 
+

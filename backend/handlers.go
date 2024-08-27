@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"go-server/shared"
 )
 
 func handleRoot(w http.ResponseWriter,r *http.Request){
@@ -17,7 +18,7 @@ func handleRoot(w http.ResponseWriter,r *http.Request){
 // }
 
 
-func handleViewPosts(posts []Post) http.HandlerFunc{
+func handleViewPosts(posts []shared.Post) http.HandlerFunc{
 	return func(w http.ResponseWriter,r *http.Request){
 		log.Println("hit posts")
 		tmpl, err:= template.ParseFiles("templates/post.html")

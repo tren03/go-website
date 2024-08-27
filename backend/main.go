@@ -1,25 +1,23 @@
 package main
 
 import (
+	"database/sql"
+	// "fmt"
+	"log"
 	"net/http"
 	"time"
+	"os"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
-	// "os"
-	// "log"
-	// "strconv"
-	// "sync"
+	_"github.com/lib/pq"
+
+	"go-server/shared"
+	"go-server/database"
+	"github.com/joho/godotenv"
 )
 
-type Post struct{
-	ID int `json:"ID"`
-	Title string `json:"Title"`
-	Url string `json:"Url"`
-	Body string `json:"Body"`
-	Date  time.Time `json:"Date"`
-	
-}
+
 
 
 
@@ -28,25 +26,55 @@ type Post struct{
 
 
 func main(){
-	// Sample Post 1
 
-	post1 := Post{
-		ID:    1,
-		Title: "Introduction to Go",
-		Url:   "https://cpu.land",
-		Body:  "Go is an open-source programming language designed for simplicity and efficiency. In this post, we will cover the basics of Go, including its syntax, types, and how to write a simple Go program.",
-		Date: time.Now(),
+
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
 	}
+
+	connStr:=os.Getenv("CONN_STR")
+	// connStr := "postgresql://postgres.kmeunchgnnjqnmwusvbn:IWvlfGXg8yLQrIA3@aws-0-ap-south-1.pooler.supabase.com:6543/postgres"
+	
+	db,err := sql.Open("postgres", connStr)
+	if err != nil {
+		log.Fatalln("Could not connect to Database:", err)
+	}
+
+	// post1 := Post{
+	// 	ID:    2,
+	// 	Title: "Introduction to Go",
+	// 	Url:   "https://cpu.land",
+	// 	Body:  "Go is an open-source programming language designed for simplicity and efficiency. In this post, we will cover the basics of Go, including its syntax, types, and how to write a simple Go program.",
+	// 	Date: time.Now(),
+	// }
+
 	//Sample Post 2
-	post2 := Post{
-		ID:    2,
-		Title: "Understanding HTTP in Go",
-		Url:   "http://antirez.com/news/108",
-		Body:  "In this post, we will explore how to build HTTP servers in Go. We will look at how to create routes, handle requests, and return responses. By the end, you'll have a good understanding of how to work with HTTP in Go.",
-		Date: time.Now(),
-	}
+	// post2 := Post{
+	// 	ID:    2,
+	// 	Title: "Understanding HTTP in Go",
+	// 	Url:   "http://antirez.com/news/108",
+	// 	Body:  "In this post, we will explore how to build HTTP servers in Go. We will look at how to create routes, handle requests, and return responses. By the end, you'll have a good understanding of how to work with HTTP in Go.",
+	// 	Date: time.Now(),
+	// }
 
-	posts:=[]Post{post1,post2}
+
+	// createTable(db)
+	database.AddPost(db,shared.Post{
+        Title: "Sample Title",
+        Url:   "http://example.com/sample-url",
+        Body:  "This is a sample body for testing purposes.",
+        Date:  time.Now(), // Current time
+    })	
+	// delPost(db,1)
+	// putAllToPostsToArray(db)
+	
+
+	
+	
+	
+
+	posts := database.PutAllToPostsToArray(db)
 
 	// chi router to router http requests
 	router:=chi.NewRouter()	
