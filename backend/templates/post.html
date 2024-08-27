@@ -1,6 +1,7 @@
 {{range .}}
 <div class="post" id="{{.ID}}">
     <h2><a href="{{.Url}}">{{.Title}}</a></h2>
+    <p class="date-added">Date Added: {{.Date.Format "January 2, 2006 15:04"}}</p>
     <p>{{.Body}}</p>
 </div>
 <hr>
