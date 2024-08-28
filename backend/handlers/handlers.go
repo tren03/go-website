@@ -12,10 +12,12 @@ import (
 	"os"
 )
 
+// handles /
 func HandleRoot(w http.ResponseWriter,r *http.Request){
 	http.ServeFile(w,r,"../frontend/index.html")
 }
 
+// handles /LoginView
 func HandleLoginView(w http.ResponseWriter,r *http.Request){
 	http.ServeFile(w,r,"../frontend/login.html")
 }
@@ -25,11 +27,7 @@ func HandleAdminView(w http.ResponseWriter,r *http.Request){
 	http.ServeFile(w,r,"../frontend/admin.html")
 }
 
-// func handleViewPosts(w http.ResponseWriter,r *http.Request){
-// 	fmt.Fprintf(w,"%v",FinalHTML)
-// }
-
-
+// handles /posts which gets hit by / for all posts go templates
 func HandleViewPosts(posts []shared.Post) http.HandlerFunc{
 	return func(w http.ResponseWriter,r *http.Request){
 
@@ -61,6 +59,8 @@ func HandleViewPosts(posts []shared.Post) http.HandlerFunc{
 }
 
 
+
+// handles /login which gets hit by loginView, currently figuring out how to auth myself to add delete posts, thinking about JWT maybe
 type LoginReq struct{
 	Username string `json:"username"`
 	Password string `json:"password"`

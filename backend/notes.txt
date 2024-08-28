@@ -10,3 +10,6 @@ supabase just gives a postgress uri, and we can use a native golang lib to acces
 
 so i downloaded different libs to check them out, but when i comment them in my project, run vendor and tidy, they are removed, package system is too good damn 
 
+
+currently figuring out how to auth myself to add delete posts, thinking about JWT maybe, for my /loginView to redirect to admin securely
+
