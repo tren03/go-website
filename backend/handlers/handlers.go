@@ -10,6 +10,9 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"github.com/golang-jwt/jwt/v5"
+	"github.com/joho/godotenv"
+	"time"
 )
 
 // handles /
@@ -22,9 +25,12 @@ func HandleLoginView(w http.ResponseWriter,r *http.Request){
 	http.ServeFile(w,r,"../frontend/login.html")
 }
 
-// handles /admin
+
+
+// handles /adminView - need to send admin.html as a response
 func HandleAdminView(w http.ResponseWriter,r *http.Request){
 	http.ServeFile(w,r,"../frontend/admin.html")
+
 }
 
 // handles /posts which gets hit by / for all posts go templates
@@ -59,6 +65,63 @@ func HandleViewPosts(posts []shared.Post) http.HandlerFunc{
 }
 
 
+type Claims struct {
+    Username string `json:"username"`
+    jwt.RegisteredClaims
+}
+
+func createJWT(username string)(string,error){
+	expirationTime := time.Now().Add(1 * time.Minute)
+
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	jwtKey := []byte(os.Getenv("JWT_KEY"))
+	
+	claims := &Claims{
+        Username: username,
+        RegisteredClaims: jwt.RegisteredClaims{
+            ExpiresAt: jwt.NewNumericDate(expirationTime),
+        },
+    }
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+	tokenString, err := token.SignedString(jwtKey)
+
+	if err != nil {
+        return "", err
+    }
+
+    return tokenString, nil
+}
+
+
+// verify jwt on client request
+func verifyJWT(tokenStr string) (*Claims, error) {
+    claims := &Claims{}
+	jwtKey := []byte(os.Getenv("JWT_KEY"))
+    token, err := jwt.ParseWithClaims(tokenStr, claims, func(token *jwt.Token) (interface{}, error) {
+        // Ensure that the signing method used is HMAC
+        if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+            return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+        }
+        return jwtKey, nil
+    })
+
+    if err != nil {
+        return nil, err
+    }
+
+    if !token.Valid {
+        return nil, fmt.Errorf("invalid token")
+    }
+
+    return claims, nil
+}
+
 
 // handles /login which gets hit by loginView, currently figuring out how to auth myself to add delete posts, thinking about JWT maybe
 type LoginReq struct{
@@ -69,7 +132,7 @@ func HandleLogin(w http.ResponseWriter,r *http.Request){
 
 	bodyBytes,err:=io.ReadAll(r.Body)	
 	if err!= nil{
-		log.Println("erro while reading login response", err)
+		log.Println("error while reading login response", err)
 	}
 
 	var login_details LoginReq 
@@ -83,12 +146,22 @@ func HandleLogin(w http.ResponseWriter,r *http.Request){
 
 	if login_details.Username==string(os.Getenv("USER_NAME")) && login_details.Password==string(os.Getenv("PASSWORD")){
 		
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"message": "Login successful"}`))
+		token, err := createJWT("vish")
+    	if err != nil {
+        	http.Error(w, "Failed to create token", http.StatusInternalServerError)
+        return
+    	}
 
-		log.Println("Login success, redirecting to /admin")
-		http.Redirect(w,r,"/admin",http.StatusSeeOther)
-		return		
+		http.SetCookie(w, &http.Cookie{
+			Name:     "jwt_token",
+			Value:    token,
+			Expires:  time.Now().Add(5 * time.Minute),
+			HttpOnly: true, // Prevents JavaScript from accessing the cookie
+			Secure:   true, // Ensures the cookie is sent only over HTTPS
+			SameSite: http.SameSiteStrictMode, // Helps protect against CSRF attacks
+		})
+		w.Header().Set("Content-Type", "application/json")
+    	// w.Write([]byte(fmt.Sprintf(`{"token": "%s"}`, token)))	
 	}else{
 		log.Println("invalid login")
 		http.Error(w, "Invalid username or password", http.StatusUnauthorized)
@@ -98,16 +171,50 @@ func HandleLogin(w http.ResponseWriter,r *http.Request){
 
 }
 
-func HandleAdmin(w http.ResponseWriter,r *http.Request){
-		
 
+// handles /admin
+func Admin(w http.ResponseWriter,r *http.Request){
+    // Get the token from the request cookie
+    cookie, err := r.Cookie("jwt_token")
+    if err != nil {
+        if err == http.ErrNoCookie {
+            http.Error(w, "No token found", http.StatusUnauthorized)
+			log.Println("No token")
+            return
+        }
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }
+
+    // Verify the token
+    claims, err := verifyJWT(cookie.Value)
+    if err != nil {
+        http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		log.Println("Unauth")
+        return
+    }
+
+    // Check the expiration
+    if time.Now().After(claims.ExpiresAt.Time) {
+        http.Error(w, "Token has expired", http.StatusUnauthorized)
+		log.Println("Token expired")
+        return
+    }
+
+    // Proceed with the request, now that the token is verified
+    
+	adminHTMLcontent,err:= os.ReadFile("../frontend/index.html")
+	if(err!=nil){
+		http.Error(w, "Failed to fetch admin", http.StatusInternalServerError)	
+		return 	
+	}
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(adminHTMLcontent))
+	log.Println("success")
 }
-	
 
 
+//assembles content to sent to admin page
+// func AdminContentHandler(){
 
-// func closureFuncCheck(name string) http.HandlerFunc{ // we use this since to return a handler func as it allows us to take in arguments
-// 	return func(w http.ResponseWriter,r *http.Request){
-// 		fmt.Fprintf(w,"we took the argument !! %v",name)
-// 	}
 // }

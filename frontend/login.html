@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,8 @@
     <style>
         body {
             font-family: "Courier New", Courier, monospace;
-            font-size: 1rem; /* Use relative units for font size */
+            font-size: 1rem;
+            /* Use relative units for font size */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -15,6 +17,7 @@
             margin: 0;
             background-color: #f4f4f4;
         }
+
         nav {
             width: 100%;
             background-color: #333;
@@ -22,49 +25,65 @@
             padding: 1rem;
             text-align: center;
         }
+
         nav a {
             color: #fff;
             text-decoration: none;
             margin: 0 0.5rem;
-            font-size: 1rem; /* Adjust font size relative to body */
+            font-size: 1rem;
+            /* Adjust font size relative to body */
         }
+
         .login-container {
-            width: 90%; /* Use percentage width for better responsiveness */
-            max-width: 400px; /* Maximum width for larger screens */
-            margin-top: 5vh; /* Margin from the top using viewport height */
+            width: 90%;
+            /* Use percentage width for better responsiveness */
+            max-width: 400px;
+            /* Maximum width for larger screens */
+            margin-top: 5vh;
+            /* Margin from the top using viewport height */
             padding: 1.5rem;
             background-color: #ffffff;
             border-radius: 0.5rem;
             box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
             text-align: center;
         }
+
         .login-container h2 {
-            font-size: 1.5rem; /* Relative font size */
+            font-size: 1.5rem;
+            /* Relative font size */
             margin-bottom: 1.5rem;
         }
+
         .login-container label {
             display: block;
             margin-bottom: 0.5rem;
-            font-size: 1rem; /* Relative font size */
+            font-size: 1rem;
+            /* Relative font size */
         }
+
         .login-container input[type="text"],
         .login-container input[type="password"] {
-            width: calc(100% - 2rem); /* Full width minus padding */
+            width: calc(100% - 2rem);
+            /* Full width minus padding */
             padding: 0.75rem;
-            font-size: 1rem; /* Relative font size */
+            font-size: 1rem;
+            /* Relative font size */
             border-radius: 0.25rem;
             border: 1px solid #ccc;
             margin-bottom: 1rem;
         }
+
         .login-container button {
             background-color: #333;
             color: #fff;
             padding: 0.75rem 1.5rem;
             border: none;
             border-radius: 0.25rem;
-            font-size: 1rem; /* Relative font size */
+            font-size: 1rem;
+            /* Relative font size */
             cursor: pointer;
         }
+
         .login-container button:hover {
             background-color: #555;
         }
@@ -75,18 +94,22 @@
                 width: 95%;
                 padding: 1rem;
             }
+
             .login-container h2 {
                 font-size: 1.25rem;
             }
+
             .login-container label,
             .login-container input[type="text"],
             .login-container input[type="password"],
             .login-container button {
-                font-size: 0.875rem; /* Slightly smaller font size for small screens */
+                font-size: 0.875rem;
+                /* Slightly smaller font size for small screens */
             }
         }
     </style>
 </head>
+
 <body>
     <nav>
         <a href="/">Home</a>
@@ -106,29 +129,31 @@
         </div>
     </main>
     <script>
-        document.getElementById('login-form').addEventListener('submit', function(event) {
+        document.getElementById('login-form').addEventListener('submit', function (event) {
             event.preventDefault();
-    
+
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-    
+
             fetch('http://localhost:8080/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ username, password })
-            }) 
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Login failed');
-                }
-                // The rest will be handled by the server
             })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+                .then(response => {
+                    if (!response.ok) {
+                        console.log(response)
+                        throw new Error('Login failed');
+                    }
+                    window.location.href = '/adminView';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         });
     </script>
 </body>
+
 </html>

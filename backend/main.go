@@ -88,8 +88,10 @@ func main(){
 	// handles /login to auth myself
 	router.Post("/login",handlers.HandleLogin)
 
+	router.Get("/adminView",handlers.HandleAdminView)
+
 	// handles /admin to edit posts
-	router.Get("/admin",handlers.HandleAdminView)
+	router.Get("/admin",handlers.Admin)
 
 	
 

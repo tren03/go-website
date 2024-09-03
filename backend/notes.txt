@@ -12,4 +12,13 @@ so i downloaded different libs to check them out, but when i comment them in my 
 
 
 currently figuring out how to auth myself to add delete posts, thinking about JWT maybe, for my /loginView to redirect to admin securely
+http cookies are the way to go hahaha
+
+
+i have to figure out how to verify the jwt token i created, creating the jwt token is confusing
+
+i figured out jwt, admin requests for html and the request granted only if its sent with valid jwt, we have a func to check that
+now i sent html content to admin using response, but i need to extract and execute js of script tag seperately as it doesnt get executed by browser
+
+
 
