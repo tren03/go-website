@@ -33,6 +33,16 @@ func HandleLoginView(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "../frontend/login.html")
 }
 
+// Handles about page
+func HandleAbout(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "../frontend/about.html")
+}
+
+// Handles about page
+func HandleContact(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "../frontend/contact.html")
+}
+
 // handles condition rendering of admin based on verified jwt
 func HandleAdminView(w http.ResponseWriter, r *http.Request) {
 	// Get the token from the request cookie

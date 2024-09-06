@@ -100,6 +100,12 @@ func main(){
 	// server end point to delete post
 	router.Delete("/deletePost/{id}",handlers.HandleDeletePost)
 
+	// handles /about for rendering the about page
+	router.Get("/about",handlers.HandleAbout)
+
+	// handles /about for rendering the about page
+	router.Get("/contact",handlers.HandleContact)
+
 
 
 	
