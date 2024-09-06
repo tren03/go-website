@@ -1,12 +1,12 @@
 package main
 
 import (
-	"database/sql"
+	// "database/sql"
 	"fmt"
 	// "fmt"
-	"log"
+	// "log"
 	"net/http"
-	"os"
+	// "os"
 
 	// "time"
 
@@ -14,12 +14,11 @@ import (
 	"github.com/go-chi/cors"
 	_ "github.com/lib/pq"
 
-	"go-server/database"
 	"go-server/handlers"
 
 	// "go-server/shared"
 
-	"github.com/joho/godotenv"
+	// "github.com/joho/godotenv"
 )
 
 
@@ -33,18 +32,18 @@ import (
 func main(){
 
 
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	// err := godotenv.Load()
+	// if err != nil {
+	// 	log.Fatal("Error loading .env file")
+	// }
 	
-	connStr:=os.Getenv("CONN_STR")
+	// connStr:=os.Getenv("CONN_STR")
 	
 	
-	db,err := sql.Open("postgres", connStr)
-	if err != nil {
-		log.Fatalln("Could not connect to Database:", err)
-	}
+	// db,err := sql.Open("postgres", connStr)
+	// if err != nil {
+	// 	log.Fatalln("Could not connect to Database:", err)
+	// }
 
 	// createTable(db)
 	// database.AddPost(db,shared.Post{
@@ -61,7 +60,7 @@ func main(){
 	
 	
 
-	posts := database.PutAllToPostsToArray(db)
+	// posts := database.PutAllToPostsToArray(db)
 
 	// chi router to router http requests
 	router:=chi.NewRouter()	
@@ -81,17 +80,27 @@ func main(){
 	router.Get("/",handlers.HandleRoot)
 
 	// handles /posts -> this gets hit by the index.html rendered by the root
-	router.Get("/posts",handlers.HandleViewPosts(posts))
+	// router.Get("/posts",handlers.HandleViewPosts(posts))
 
+	// handles /posts to provide most recent data always
+	router.Get("/posts",handlers.HandleAutoViewPosts)
+
+	// handles rendering the login page
 	router.Get("/loginView",handlers.HandleLoginView)
 
-	// handles /login to auth myself
+	// handles /login which is hit by /loginView
 	router.Post("/login",handlers.HandleLogin)
 
+	// handles rendering the adminPage  
 	router.Get("/adminView",handlers.HandleAdminView)
 
-	// handles /admin to edit posts
-	router.Get("/admin",handlers.Admin)
+	// server end point that adds post /addPost
+	router.Post("/addPost",handlers.HandleAddPost)
+
+	// server end point to delete post
+	router.Delete("/deletePost/{id}",handlers.HandleDeletePost)
+
+
 
 	
 

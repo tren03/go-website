@@ -33,13 +33,13 @@ import (
 // }
 
 // gets all the posts from the database and returns an Array of posts containt
-func PutAllToPostsToArray(db *sql.DB) []shared.Post{
+func PutAllToPostsToArray(db *sql.DB) []shared.Post {
 	rows, err := db.Query("SELECT * FROM posts")
 	if err != nil {
 		log.Fatalln("Could not fetch rows:", err)
 	}
 	defer rows.Close()
-	allPosts:= []shared.Post{}
+	allPosts := []shared.Post{}
 
 	for rows.Next() {
 		var article shared.Post
@@ -55,7 +55,6 @@ func PutAllToPostsToArray(db *sql.DB) []shared.Post{
 	// 	fmt.Println("works")
 	// 	fmt.Println(val)
 	// }
-
 
 	// Check for any error after finishing the iteration
 	if err = rows.Err(); err != nil {
@@ -86,7 +85,6 @@ func PutAllToPostsToArray(db *sql.DB) []shared.Post{
 
 // }
 
-
 func AddPost(db *sql.DB, p shared.Post) {
 	sqlStatement := `
 	INSERT INTO posts (title, url, body, date)
@@ -102,16 +100,14 @@ func AddPost(db *sql.DB, p shared.Post) {
 }
 
 func DelPost(db *sql.DB, id int) {
-    sqlStatement := `
+	sqlStatement := `
     DELETE FROM posts
     WHERE ID = $1;`
 
-    // Execute the SQL statement
-    _, err := db.Exec(sqlStatement, id)
-    if err != nil {
+	// Execute the SQL statement
+	_, err := db.Exec(sqlStatement, id)
+	if err != nil {
 		log.Fatalln("insert error", err)
-        
-    }
-}
-    
 
+	}
+}

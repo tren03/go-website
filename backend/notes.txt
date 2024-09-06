@@ -21,4 +21,6 @@ i figured out jwt, admin requests for html and the request granted only if its s
 now i sent html content to admin using response, but i need to extract and execute js of script tag seperately as it doesnt get executed by browser
 
 
+we used jwt to verify every addition and deletion even after admin login
+
 

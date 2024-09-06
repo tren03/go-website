@@ -146,8 +146,20 @@
                     if (!response.ok) {
                         console.log(response)
                         throw new Error('Login failed');
-                    }
-                    window.location.href = '/adminView';
+                    } fetch('http://localhost:8080/adminView')
+                        .then(response => {
+                            if (response.ok) {
+                                window.location.href = '/adminView';
+                            } else {
+                                console.error('Unauthorized');
+                                alert('Unauthorized access!');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+
+
                 })
                 .catch(error => {
                     console.error('Error:', error);
