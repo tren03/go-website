@@ -110,7 +110,7 @@ func HandleAdminView(w http.ResponseWriter, r *http.Request) {
 func HandleAutoViewPosts(w http.ResponseWriter, r *http.Request) {
 	err := godotenv.Load("/root/backend/.env")
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Println("Error loading .env file")
 	}
 
 	connStr := os.Getenv("CONN_STR")
@@ -160,7 +160,7 @@ func createJWT(username string) (string, error) {
 
 	err := godotenv.Load("/root/backend/.env")
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Println("Error loading .env file")
 	}
 
 	jwtKey := []byte(os.Getenv("JWT_KEY"))
@@ -189,7 +189,7 @@ func verifyJWT(tokenStr string) (*Claims, error) {
 
 	err := godotenv.Load("/root/backend/.env")
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Println("Error loading .env file")
 	}
 
 	jwtKey := []byte(os.Getenv("JWT_KEY"))
@@ -306,7 +306,7 @@ func HandleAddPost(w http.ResponseWriter, r *http.Request) {
 
 	err = godotenv.Load("/root/backend/.env")
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Println("Error loading .env file")
 	}
 
 	connStr := os.Getenv("CONN_STR")
@@ -352,7 +352,7 @@ func HandleDeletePost(w http.ResponseWriter, r *http.Request) {
 	id_str := chi.URLParam(r, "id")
 	err = godotenv.Load("/root/backend/.env")
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Println("Error loading .env file")
 	}
 
 	connStr := os.Getenv("CONN_STR")
