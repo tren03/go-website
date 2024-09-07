@@ -135,7 +135,7 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            fetch('http://localhost:8080/login', {
+            fetch('http://localhost/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -146,7 +146,7 @@
                     if (!response.ok) {
                         console.log(response)
                         throw new Error('Login failed');
-                    } fetch('http://localhost:8080/adminView')
+                    } fetch('http://localhost/adminView')
                         .then(response => {
                             if (response.ok) {
                                 window.location.href = '/adminView';
