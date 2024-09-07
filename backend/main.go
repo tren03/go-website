@@ -88,7 +88,7 @@ func main() {
 	// handles /about for rendering the about page
 	router.Get("/contact", handlers.HandleContact)
 
-	fmt.Println("server started at 80")
-	http.ListenAndServe(":80", router)
+	fmt.Println("server started at 8080")
+	http.ListenAndServe(":8080", router)
 
 }

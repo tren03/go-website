@@ -32,7 +32,7 @@ COPY backend/ /root/backend/
 COPY frontend/ /root/frontend/
 
 # Expose port 8080 for the Go backend
-EXPOSE 80
+EXPOSE 8080
 
 # Run the Go server binary
 CMD ["./go-server"]

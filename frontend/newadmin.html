@@ -226,7 +226,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            fetch("http://localhost/posts")
+            fetch("http://localhost:8080/posts")
                 .then((response) => {
                     if (!response.ok) {
                         throw new Error("Network response was not ok");
@@ -262,7 +262,7 @@
                     body: body,
                 });
 
-                fetch('http://localhost/addPost', {
+                fetch('/addPost', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
