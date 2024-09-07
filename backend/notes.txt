@@ -24,3 +24,10 @@ now i sent html content to admin using response, but i need to extract and execu
 we used jwt to verify every addition and deletion even after admin login
 
 
+the error for not finding a env file was fatal, which causes my application to keep crashing and not look for the env variables available in the environmen
+
+since i didnt knwo the port being assigned and my server and client were on same port, changed request from localhost:8080/posts to /posts
+
+succesfully hosted on railway
+
+
