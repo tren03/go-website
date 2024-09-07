@@ -75,38 +75,7 @@ func HandleAdminView(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "/root/frontend/newadmin.html")
 }
 
-// handles /posts which gets hit by / for all posts go templates
-// func HandleViewPosts(posts []shared.Post) http.HandlerFunc {
-// 	return func(w http.ResponseWriter, r *http.Request) {
-
-// 		log.Println("hit posts")
-// 		tmpl, err := template.ParseFiles("templates/post.html")
-// 		if err != nil {
-// 			log.Println("Error while parsing", err)
-// 			http.Error(w, "Error while parsing", http.StatusInternalServerError)
-// 			return
-// 		}
-
-// 		var buf bytes.Buffer
-
-// 		// Execute the template and write the output to the buffer
-// 		err = tmpl.Execute(&buf, posts)
-// 		if err != nil {
-// 			http.Error(w, "Error while rendering template", http.StatusInternalServerError)
-// 			return
-// 		}
-
-// 		// Print the rendered HTML to the console
-// 		// fmt.Println(buf.String())
-// 		w.Header().Set("Content-Type", "text/html")
-// 		_, err = w.Write(buf.Bytes())
-// 		if err != nil {
-// 			http.Error(w, "Error while writing response", http.StatusInternalServerError)
-// 		}
-// 	}
-// }
-
-// Alternative to HandleViewPosts in which database connection is handled here only
+// Alternative to HandleViewPosts in which database connection is handled here only /posts
 func HandleAutoViewPosts(w http.ResponseWriter, r *http.Request) {
 	err := godotenv.Load("/root/backend/.env")
 	if err != nil {
@@ -122,6 +91,11 @@ func HandleAutoViewPosts(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	posts := database.PutAllToPostsToArray(db)
+
+	// to render most recent post first
+	for i, j := 0, len(posts)-1; i < j; i, j = i+1, j-1 {
+		posts[i], posts[j] = posts[j], posts[i]
+	}
 
 	log.Println("hit posts")
 	tmpl, err := template.ParseFiles("/root/backend/templates/post.html")
