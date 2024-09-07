@@ -298,7 +298,8 @@
             post.appendChild(deleteBtn);
 
             deleteBtn.addEventListener('click', function (event) {
-                event.stopPropagation();
+                event.stopPropagation(); // Prevents the link from being triggered
+                event.preventDefault();  // Also prevents default behavior of the link
                 deletePost(post.id);
             });
         });
