@@ -15,31 +15,19 @@ import (
 	_ "github.com/lib/pq"
 
 	"go-server/handlers"
-
 	// "go-server/shared"
-
 	// "github.com/joho/godotenv"
 )
 
-
-
-
-
-
-
-
-
-func main(){
-
+func main() {
 
 	// err := godotenv.Load()
 	// if err != nil {
 	// 	log.Fatal("Error loading .env file")
 	// }
-	
+
 	// connStr:=os.Getenv("CONN_STR")
-	
-	
+
 	// db,err := sql.Open("postgres", connStr)
 	// if err != nil {
 	// 	log.Fatalln("Could not connect to Database:", err)
@@ -47,23 +35,18 @@ func main(){
 
 	// createTable(db)
 	// database.AddPost(db,shared.Post{
-    //     Title: "Sample Title",
-    //     Url:   "http://example.com/sample-url",
-    //     Body:  "This is a sample body for testing purposes.",
-    //     Date:  time.Now(), // Current time
-    // })	
+	//     Title: "Sample Title",
+	//     Url:   "http://example.com/sample-url",
+	//     Body:  "This is a sample body for testing purposes.",
+	//     Date:  time.Now(), // Current time
+	// })
 	// delPost(db,1)
 	// putAllToPostsToArray(db)
-	
-
-	
-	
-	
 
 	// posts := database.PutAllToPostsToArray(db)
 
 	// chi router to router http requests
-	router:=chi.NewRouter()	
+	router := chi.NewRouter()
 
 	// cors config
 	router.Use(cors.Handler(cors.Options{
@@ -73,47 +56,39 @@ func main(){
 		ExposedHeaders:   []string{"Link"},
 		AllowCredentials: false,
 		MaxAge:           300, // Maximum value not ignored by any of major browsers
-	  }))
-	
+	}))
 
 	// handles /
-	router.Get("/",handlers.HandleRoot)
+	router.Get("/", handlers.HandleRoot)
 
 	// handles /posts -> this gets hit by the index.html rendered by the root
 	// router.Get("/posts",handlers.HandleViewPosts(posts))
 
 	// handles /posts to provide most recent data always
-	router.Get("/posts",handlers.HandleAutoViewPosts)
+	router.Get("/posts", handlers.HandleAutoViewPosts)
 
 	// handles rendering the login page
-	router.Get("/loginView",handlers.HandleLoginView)
+	router.Get("/loginView", handlers.HandleLoginView)
 
 	// handles /login which is hit by /loginView
-	router.Post("/login",handlers.HandleLogin)
+	router.Post("/login", handlers.HandleLogin)
 
-	// handles rendering the adminPage  
-	router.Get("/adminView",handlers.HandleAdminView)
+	// handles rendering the adminPage
+	router.Get("/adminView", handlers.HandleAdminView)
 
 	// server end point that adds post /addPost
-	router.Post("/addPost",handlers.HandleAddPost)
+	router.Post("/addPost", handlers.HandleAddPost)
 
 	// server end point to delete post
-	router.Delete("/deletePost/{id}",handlers.HandleDeletePost)
+	router.Delete("/deletePost/{id}", handlers.HandleDeletePost)
 
 	// handles /about for rendering the about page
-	router.Get("/about",handlers.HandleAbout)
+	router.Get("/about", handlers.HandleAbout)
 
 	// handles /about for rendering the about page
-	router.Get("/contact",handlers.HandleContact)
+	router.Get("/contact", handlers.HandleContact)
 
-
-
-	
-
-	fmt.Println("server started at 8080")
-	http.ListenAndServe(":8080", router)
-
-
-
+	fmt.Println("server started at 80")
+	http.ListenAndServe(":80", router)
 
 }
