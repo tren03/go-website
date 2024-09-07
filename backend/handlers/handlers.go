@@ -130,7 +130,7 @@ type Claims struct {
 }
 
 func createJWT(username string) (string, error) {
-	expirationTime := time.Now().Add(100 * time.Minute)
+	expirationTime := time.Now().Add(500 * time.Minute)
 
 	err := godotenv.Load("/root/backend/.env")
 	if err != nil {
