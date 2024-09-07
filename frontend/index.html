@@ -67,32 +67,33 @@
     <main id="posts-container">
         <!-- Posts will be rendered here -->
     </main>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch("/posts")
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error("Network response was not ok");
-                    }
-                    return response.text();
-                })
-                .then((html) => {
-                    document.getElementById("posts-container").innerHTML = html;
-                    attachEventListeners();
-                })
-                .catch((error) => {
-                    console.error("There was a problem with the fetch operation:", error);
-                });
-        });
-
-        function attachEventListeners() {
-            const posts = document.querySelectorAll('.post');
-            posts.forEach((post) => {
-                post.addEventListener('click', function() {
-                    console.log('Post clicked:', post.id);
-                });
-            });
-        }
-    </script>
+   
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch("/posts")
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.text();
+            })
+            .then((html) => {
+                document.getElementById("posts-container").innerHTML = html;
+                attachEventListeners();
+            })
+            .catch((error) => {
+                console.error("There was a problem with the fetch operation:", error);
+            });
+    });
+
+    function attachEventListeners() {
+        const posts = document.querySelectorAll('.post');
+        posts.forEach((post) => {
+            post.addEventListener('click', function() {
+                console.log('Post clicked:', post.id);
+            });
+        });
+    }
+</script>
 </html>

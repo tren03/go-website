@@ -128,44 +128,45 @@
             </form>
         </div>
     </main>
-    <script>
-        document.getElementById('login-form').addEventListener('submit', function (event) {
-            event.preventDefault();
 
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            fetch('http://localhost:8080/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ username, password })
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        console.log(response)
-                        throw new Error('Login failed');
-                    } fetch('/adminView')
-                        .then(response => {
-                            if (response.ok) {
-                                window.location.href = '/adminView';
-                            } else {
-                                console.error('Unauthorized',response.body);
-                                alert('Unauthorized access!');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
-
-
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        });
-    </script>
 </body>
+<script>
+    document.getElementById('login-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        fetch('http://localhost:8080/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    console.log(response)
+                    throw new Error('Login failed');
+                } fetch('/adminView')
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href = '/adminView';
+                        } else {
+                            console.error('Unauthorized',response.body);
+                            alert('Unauthorized access!');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+
+
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+</script>
 
 </html>
