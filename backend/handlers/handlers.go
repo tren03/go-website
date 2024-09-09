@@ -25,22 +25,22 @@ import (
 
 // handles /
 func HandleRoot(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "/root/frontend/index.html")
+	http.ServeFile(w, r, "../frontend/index.html")
 }
 
 // handles /LoginView
 func HandleLoginView(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "/root/frontend/login.html")
+	http.ServeFile(w, r, "../frontend/login.html")
 }
 
 // Handles about page
 func HandleAbout(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "/root/frontend/about.html")
+	http.ServeFile(w, r, "../frontend/about.html")
 }
 
 // Handles about page
 func HandleContact(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "/root/frontend/contact.html")
+	http.ServeFile(w, r, "../frontend/contact.html")
 }
 
 // handles condition rendering of admin based on verified jwt
@@ -77,7 +77,7 @@ func HandleAdminView(w http.ResponseWriter, r *http.Request) {
 
 // Alternative to HandleViewPosts in which database connection is handled here only /posts
 func HandleAutoViewPosts(w http.ResponseWriter, r *http.Request) {
-	err := godotenv.Load("/root/backend/.env")
+	err := godotenv.Load("../backend/.env")
 	if err != nil {
 		log.Println("Error loading .env file")
 	}
@@ -98,7 +98,7 @@ func HandleAutoViewPosts(w http.ResponseWriter, r *http.Request) {
 	}
 
 	log.Println("hit posts")
-	tmpl, err := template.ParseFiles("/root/backend/templates/post.html")
+	tmpl, err := template.ParseFiles("../backend/templates/post.html")
 	if err != nil {
 		log.Println("Error while parsing", err)
 		http.Error(w, "Error while parsing", http.StatusInternalServerError)
@@ -132,7 +132,7 @@ type Claims struct {
 func createJWT(username string) (string, error) {
 	expirationTime := time.Now().Add(500 * time.Minute)
 
-	err := godotenv.Load("/root/backend/.env")
+	err := godotenv.Load("../backend/.env")
 	if err != nil {
 		log.Println("Error loading .env file")
 	}
@@ -161,7 +161,7 @@ func createJWT(username string) (string, error) {
 func verifyJWT(tokenStr string) (*Claims, error) {
 	claims := &Claims{}
 
-	err := godotenv.Load("/root/backend/.env")
+	err := godotenv.Load("../backend/.env")
 	if err != nil {
 		log.Println("Error loading .env file")
 	}
@@ -278,7 +278,7 @@ func HandleAddPost(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println(p)
 
-	err = godotenv.Load("/root/backend/.env")
+	err = godotenv.Load("../backend/.env")
 	if err != nil {
 		log.Println("Error loading .env file")
 	}
@@ -324,7 +324,7 @@ func HandleDeletePost(w http.ResponseWriter, r *http.Request) {
 	// If we enter this section, it means we have verified our jwt and can perform authoratative operations
 
 	id_str := chi.URLParam(r, "id")
-	err = godotenv.Load("/root/backend/.env")
+	err = godotenv.Load("../backend/.env")
 	if err != nil {
 		log.Println("Error loading .env file")
 	}
