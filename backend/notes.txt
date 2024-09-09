@@ -30,4 +30,15 @@ since i didnt knwo the port being assigned and my server and client were on same
 
 succesfully hosted on railway
 
+created a local_dev_env branch and changed all the paths so that it can run locally wihout docker, whenever i need an update to the site, make copy of this branch and locally to make changes
+
+The loading time was too long because i was sending down html content from the server side, so i now send down json array and render in client side
+
+adding cacheing by storing the json response in session storage, so it doesnt keep hitting my server when it reloads
+
+tested out client side rendering, seems very slow, switching back to server side (keeping client side rendering for now)
+Need to implement lazy loaing to get it working better
+cache works like a charm
+
+
 

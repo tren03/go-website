@@ -194,6 +194,7 @@
     <h1>Welcome Admin</h1>
     <button class="add-btn" id="add-article-btn">Add New Article</button>
     <main id="posts-container">
+        <p>Loading posts...</p> 
         <!-- Posts will be rendered here -->
     </main>
 
@@ -228,21 +229,50 @@
 </body>
 
 <script>
+        async function fetchAndRender() {
+        const response = await fetch("/posts");
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const posts = await response.json();
+        render(posts);
+        attachEventListeners(); // Attach event listeners after rendering posts
+    }
+
+    function render(posts) {
+        const postContainer = document.getElementById("posts-container");
+        postContainer.innerHTML = ""; // Clear the container
+
+        posts.forEach((post) => {
+            const postElement = document.createElement('div');
+            postElement.innerHTML = `
+                <a href="${post.Url}" style="text-decoration: none; color: inherit;">
+                    <div class="post" id="${post.ID}">
+                        <h2>${post.Title}</h2>
+                        <p class="date-added">Date Added: ${new Date(post.Date).toLocaleString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false // Use true for 12-hour format with AM/PM
+            })}</p>
+                        <p>${post.Body}</p>
+                        <p>URL: ${post.Url}</p>
+                    </div>
+                </a>
+                <hr>
+            `;
+
+            // Append the dynamically created post to the container
+            postContainer.appendChild(postElement);
+        });
+    }
+    
     document.addEventListener("DOMContentLoaded", function () {
-        fetch("/posts")
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return response.text();
-            })
-            .then((html) => {
-                document.getElementById("posts-container").innerHTML = html;
-                attachEventListeners();
-            })
-            .catch((error) => {
-                console.error("There was a problem with the fetch operation:", error);
-            });
+        fetchAndRender();
+        attachEventListeners();
 
         document.getElementById('add-article-btn').addEventListener('click', function () {
             document.getElementById('add-article-modal').style.display = 'flex';
