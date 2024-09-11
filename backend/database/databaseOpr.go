@@ -36,7 +36,7 @@ import (
 func PutAllToPostsToArray(db *sql.DB) []shared.Post {
 	rows, err := db.Query("SELECT * FROM posts")
 	if err != nil {
-		log.Fatalln("Could not fetch rows:", err)
+		log.Println("Could not fetch rows:", err)
 	}
 	defer rows.Close()
 	allPosts := []shared.Post{}

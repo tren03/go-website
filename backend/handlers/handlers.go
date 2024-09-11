@@ -221,6 +221,9 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("Username: %s\n", login_details.Username)
 	fmt.Printf("Password: %s\n", login_details.Password)
 
+	fmt.Printf("exptected Username: %s\n", string(os.Getenv("USER_NAME")))
+	fmt.Printf("expected Password: %s\n",string(os.Getenv("PASSWORD")))
+
 	if login_details.Username == string(os.Getenv("USER_NAME")) && login_details.Password == string(os.Getenv("PASSWORD")) {
 
 		token, err := createJWT("vish")

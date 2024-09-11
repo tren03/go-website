@@ -37,8 +37,9 @@ The loading time was too long because i was sending down html content from the s
 adding cacheing by storing the json response in session storage, so it doesnt keep hitting my server when it reloads
 
 tested out client side rendering, seems very slow, switching back to server side (keeping client side rendering for now)
-Need to implement lazy loaing to get it working better
+Need to implement lazy loaing to get it working better, look into text compression to better the load times
 cache works like a charm
+
 
 
 
