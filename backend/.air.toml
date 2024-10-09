@@ -1,0 +1,32 @@
+# .air.toml
+
+# Set the project root to the backend folder
+root = "."
+
+# Watch relevant directories (now relative to the backend folder)
+[watch]
+includes = [
+    "**/*.html"
+  "**/*.go",       # Watch all Go files in the backend folder (which is now the current folder)
+  "../frontend/**/*.html" # Watch HTML files in the frontend folder (relative to backend)
+]
+excludes = [
+  "vendor/**",     # Exclude vendor directory
+  "node_modules/**", # Exclude node_modules if applicable
+  ".git/**",       # Exclude .git folder
+]
+
+# Command to run tests for backend
+[build]
+cmd = "go test ./main_test.go"  # Path relative to backend folder
+full_bin = "APP_ENV=dev ./tmp/app"
+
+# Add delay to avoid rapid rebuilds during frequent file changes
+[build.delay]
+full = 1000  # 1 second before full rebuild
+incremental = 500  # 0.5 second before incremental rebuild
+
+# Automatically clean up temp files on exit
+[misc]
+clean_on_exit = true
+

@@ -10,16 +10,18 @@ import (
 	"os"
 	"strconv"
 	"time"
-
 	"github.com/go-chi/chi/v5"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/joho/godotenv"
-
 	"database/sql"
 	"go-server/database"
-
 	_ "github.com/lib/pq"
 )
+
+// handles /landing
+func HandleLanding(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "/root/frontend/landing.html")
+}
 
 // handles /
 func HandleRoot(w http.ResponseWriter, r *http.Request) {
@@ -222,7 +224,7 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("Password: %s\n", login_details.Password)
 
 	fmt.Printf("exptected Username: %s\n", string(os.Getenv("USER_NAME")))
-	fmt.Printf("expected Password: %s\n",string(os.Getenv("PASSWORD")))
+	fmt.Printf("expected Password: %s\n", string(os.Getenv("PASSWORD")))
 
 	if login_details.Username == string(os.Getenv("USER_NAME")) && login_details.Password == string(os.Getenv("PASSWORD")) {
 

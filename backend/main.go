@@ -2,9 +2,10 @@ package main
 
 import (
 	// "database/sql"
-	"fmt"
+
 	// "fmt"
 	// "log"
+	"fmt"
 	"net/http"
 	// "os"
 
@@ -64,6 +65,9 @@ func main() {
 	// handles /posts -> this gets hit by the index.html rendered by the root
 	// router.Get("/posts",handlers.HandleViewPosts(posts))
 
+	// handles landing page
+	router.Get("/landing", handlers.HandleLanding)
+
 	// handles /posts to provide most recent data always
 	router.Get("/posts", handlers.HandleAutoViewPosts)
 
@@ -88,7 +92,15 @@ func main() {
 	// handles /about for rendering the about page
 	router.Get("/contact", handlers.HandleContact)
 
-	fmt.Println("server started at 8080")
-	http.ListenAndServe(":8080", router)
+	//	fmt.Println("server started at 8080")
+	//	http.ListenAndServe(":8080", router)
 
+	fmt.Println("starting test server to make landing")
+	http.Handle("/assets/",http.StripPrefix("/assets/" ,http.FileServer(http.Dir("../frontend/assets/"))))
+	  http.HandleFunc("/",HandleLand)
+	http.ListenAndServe(":8081", nil)
+}
+
+func HandleLand(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "../frontend/landing.html")
 }

@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  go-app:
+    build:
+      context: .  # Path to the directory containing the Dockerfile
+      dockerfile: Dockerfile  # The Dockerfile to use
+    ports:
+      - "8080:8080"  # Expose the Go server on port 8080
+    volumes:
+      - ./backend:/root/backend  # Optional: for syncing backend code during development
+      - ./frontend:/root/frontend  # Sync frontend files with the container
+    networks:
+      - app-network
+    restart: always  # Restart automatically in case of failure
+
+networks:
+  app-network:
+    driver: bridge
+
