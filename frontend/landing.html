@@ -7,6 +7,8 @@
     <title>Landing</title>
     <script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.min.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/cal-heatmap/dist/plugins/Tooltip.min.js"></script>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.css" />
     <style>
         body {
@@ -155,40 +157,16 @@
             }
         }
 
-        .commit-history-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            /* Ensure content stacks vertically */
-            /* Set a fixed height */
-            overflow-y: hidden;
-            /* Enable vertical scrolling */
-            border: 1px solid #ccc;
-            /* Optional border for visual separation */
-            padding: 20px;
-            width: 80%;
-            /* Limit the max width */
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        .ch-tooltips{
+            z-index: 9999;
         }
+
 
         /* Responsive styles */
         @media (max-width: 768px) {
-            .commit-history-container {
-                overflow-y: scroll;
-                /* Set a smaller height for smaller screens */
-            }
         }
 
         @media (max-width: 480px) {
-            .commit-history-container {
-                /* Further reduce height for very small screens */
-                overflow-y: scroll;
-                width: 90%;
-                /* Reduce width on mobile for better fit */
-            }
         }
     </style>
 </head>
@@ -208,7 +186,7 @@
         <h2>Welcome to</h2>
 
         <div class="ascii">
-            <img src="./assets/asc.png" alt="ACSCII ART" />
+            <img src="/assets/asc.png" alt="ACSCII ART" />
         </div>
 
         <img src="/assets/dancing-gopher.gif" alt="ACSCII ART" />
@@ -222,10 +200,63 @@
         <div class="commit-history-container">
             <div id="cal-heatmap">
                 <script type="text/javascript">
-                    function initCalHeatMap() {
-                        var monthsToShow = window.innerWidth < 768 ? 4 : 6;
+                    async function fetchAndRender() {
+                        const cachedPosts = sessionStorage.getItem(
+                            "cachedPosts-artechcles",
+                        );
 
+                        if (cachedPosts) {
+                            console.log("Using cached data");
+                            let parse_json = JSON.parse(cachedPosts);
+
+                            console.log(parse_json[0].Date);
+                            let js_date = new Date(parse_json[0].Date);
+                            console.log("js date ", js_date);
+
+                            let unix_time = Math.floor(
+                                js_date.getTime() / 1000,
+                            );
+                            console.log("unixtime ", unix_time);
+                            return;
+                        }
+
+                        const response = await fetch("/posts");
+                        if (!response.ok) {
+                            throw new Error("Network response was not ok");
+                        }
+
+                        const posts = await response.json();
+                        sessionStorage.setItem(
+                            "cachedPosts-artechcles",
+                            JSON.stringify(posts),
+                        ); // Cache the response in sessionStorage
+                    }
+
+                    async function GetTimeList() {
+                        await fetchAndRender();
+                        let timeList = {};
+                        console.log("entered here");
+                        const posts = sessionStorage.getItem(
+                            "cachedPosts-artechcles",
+                        );
+                        let arr = JSON.parse(posts);
+                        arr.forEach((obj) => {
+                            console.log(obj.Date);
+                            let js_date = new Date(obj.Date);
+                            console.log("js date ", js_date);
+                            let unix_time = Math.floor(
+                                js_date.getTime() / 1000,
+                            );
+                            console.log("unixtime ", unix_time);
+                            timeList[unix_time] = 1;
+                        });
+                        console.log(timeList);
+                        return timeList;
+                    }
+                    async function initCalHeatMap() {
+                        var monthsToShow = window.innerWidth < 768 ? 4 : 6;
                         var tilesize = window.innerWidth < 768 ? 10 : 15;
+                        const data = await GetTimeList();
 
                         var cal = new CalHeatMap();
                         cal.init({
@@ -234,22 +265,20 @@
                             subDomain: "day",
                             start: new Date(
                                 new Date().setMonth(
-                                    new Date().getMonth() - monthsToShow+1,
+                                    new Date().getMonth() -
+                                    monthsToShow +
+                                    1,
                                 ),
                             ),
-                            // needs json object with unix timestamps
-                            data: {
-                                1728518400: 1, // 1 commit on October 10, 2024 (Unix timestamp for Oct 10, 2024)
-                                1728522000: 2, // 2 commits later the same day
-                                1728525600: 3, // 3 more commits on October 10, 2024
-                            },
+                            data: data,
                             cellSize: tilesize,
                             range: monthsToShow,
                             legend: [20, 40, 60, 80],
-                            tooltip: true,
+                            tooltip: true
                         });
                     }
 
+                    // Correct way to add Tooltip plugin
                     // Initialize the heatmap when the page loads
                     initCalHeatMap();
 

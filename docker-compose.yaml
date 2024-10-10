@@ -8,8 +8,8 @@ services:
     ports:
       - "8080:8080"  # Expose the Go server on port 8080
     volumes:
-      - ./backend:/root/backend  # Optional: for syncing backend code during development
-      - ./frontend:/root/frontend  # Sync frontend files with the container
+      - ./backend:/root/backend  # Sync backend files for live reloading
+      - ./frontend:/root/frontend  # Sync frontend files
     networks:
       - app-network
     restart: always  # Restart automatically in case of failure

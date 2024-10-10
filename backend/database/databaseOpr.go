@@ -111,3 +111,4 @@ func DelPost(db *sql.DB, id int) {
 
 	}
 }
+

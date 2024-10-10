@@ -1,8 +1,10 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
-    <title>Artechcles</title>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <title>Artechles</title>
     <style>
         body {
             font-family: "Courier New", Courier, monospace;
@@ -13,20 +15,26 @@
             min-height: 100vh;
             margin: 0;
             background-color: #f4f4f4;
+            position: relative;
+            overflow: hidden;
         }
+
         nav {
             width: 100%;
             background-color: #333;
             color: #fff;
             padding: 20px;
             text-align: center;
+            z-index: 10;
         }
+
         nav a {
             color: #fff;
             text-decoration: none;
             margin: 0 15px;
             font-size: 22px;
         }
+
         .content-container {
             width: 80%;
             max-width: 800px;
@@ -36,44 +44,138 @@
             background-color: #ffffff;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 5;
+            position: relative;
         }
+
         h1 {
             font-size: 36px;
             margin-bottom: 20px;
         }
+
         p {
             font-size: 20px;
             line-height: 1.8;
         }
-        .contact-info {
-            margin-top: 20px;
-            font-size: 18px;
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            /* Ensure particles are behind everything */
+            pointer-events: none;
+            /* Prevent interaction with the particles layer */
         }
     </style>
 </head>
+
 <body>
+    <!-- Particle JS container -->
+    <div id="particles-js"></div>
+
     <nav>
         <a href="/">Home</a>
         <a href="/allposts">Posts</a>
         <a href="/about">About</a>
         <a href="/contact">Contact</a>
     </nav>
-    <main class="content-container">
-        <h1>Get in Touch</h1>
-        <p>
-            Have some cool tech articles you want to share? Or just want to say hi? I'd love to hear from you! 
-        </p>
-        <p>
-            Here’s how you can reach me:
-        </p>
-        <div class="contact-info">
-            <p><strong>Email:</strong> vishnusethuraman@gmail.com</p>
-            <p><strong>Github:</strong> https://github.com/tren03</p>
-        </div>
-        <p>
-    
-        </p>
 
+    <main class="content-container">
+        <h1>About This Site</h1>
+        <p>
+            Welcome to Artechles! I built this site to share interesting
+            tech articles that I come across. It's a way for me to keep
+            track of these articles and also share them with others who
+            might find them helpful or fascinating.
+        </p>
+        <p>
+            Please note that none of the articles posted on this site are
+            written by me. All credit goes to the original authors and
+            sources, and links to the original articles are provided for
+            proper attribution.
+        </p>
+        <p>
+            Fun fact: This website was written in <strong>Go</strong> and
+            <strong>HTML</strong> (because who doesn't love a good combo of
+            simplicity and speed?). But wait, there's more! I'm planning to
+            rewrite the frontend with a fancy framework soon. React, Vue,
+            Svelte... who knows? Stay tuned for that glow-up!
+        </p>
     </main>
+
+    <script>
+        particlesJS("particles-js", {
+            particles: {
+                number: {
+                    value: 120,
+                    density: {
+                        enable: true,
+                        value_area: 800,
+                    },
+                },
+                color: {
+                    value: "#999999",
+                },
+                shape: {
+                    type: "triangle",
+                    stroke: {
+                        width: 0,
+                        color: "#000000",
+                    },
+                },
+                opacity: {
+                    value: 0.4,
+                },
+                size: {
+                    value: 3,
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#999999",
+                    opacity: 0.4,
+                    width: 1,
+                },
+                move: {
+                    enable: true,
+                    speed: 3,
+                    direction: "none",
+                    random: false,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                    attract: {
+                        enable: false,
+                    },
+                },
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: "bubble",
+                    },
+                    onclick: {
+                        enable: false,
+                        mode: "push",
+                    },
+                },
+                modes: {
+                    bubble: {
+                        distance: 150,
+                        size: 10,
+                        duration: 2,
+                        opacity: 0.8,
+                    },
+                },
+            },
+            retina_detect: true,
+        });
+    </script>
 </body>
+
 </html>

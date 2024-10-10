@@ -17,14 +17,11 @@ import (
 	"go-server/database"
 	_ "github.com/lib/pq"
 )
-
-// handles /landing
-func HandleLanding(w http.ResponseWriter, r *http.Request) {
+func HandleLanding(w http.ResponseWriter, r *http.Request){
 	http.ServeFile(w, r, "/root/frontend/landing.html")
 }
 
-// handles /
-func HandleRoot(w http.ResponseWriter, r *http.Request) {
+func HandleAllPosts(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "/root/frontend/index.html")
 }
 
@@ -362,5 +359,10 @@ func HandleDeletePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	database.DelPost(db, id)
+
+}
+
+
+func HandleTime(w http.ResponseWriter,r *http.Request){
 
 }

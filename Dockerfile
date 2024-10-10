@@ -1,38 +1,31 @@
-# Step 1: Build the Go backend app
-FROM golang:1.23-alpine AS builder
+# Step 1: Base image for building Go
+FROM golang:1.23-alpine 
 
-# Set the working directory for the backend code inside the container
-WORKDIR /app/backend
+WORKDIR /root/backend
 
-# Copy only the Go module files and vendor folder (if applicable) first
-COPY backend/go.mod backend/go.sum backend/vendor ./
+# Install air for hot-reloading
+RUN go install github.com/air-verse/air@latest
 
-# Download dependencies if necessary
-# RUN go mod download
+# Copy only the Go module files first
+COPY backend/go.mod backend/go.sum ./
+
+# Download dependencies
+RUN go mod download
 
 # Copy the rest of the backend source code into the container
 COPY backend/ .
 
-# Build the Go binary, using the vendor directory if available
-RUN go build -mod=vendor -o go-server .
+WORKDIR /root/frontend
 
-# Step 2: Create the final container
-FROM alpine:latest
+# Copy only the Go module files first
+COPY frontend/ .
 
-# Set the working directory inside the container
-WORKDIR /root/
+WORKDIR /root/backend
 
-# Copy the compiled Go backend binary from the builder stage
-COPY --from=builder /app/backend/go-server .
-
-# Copy the entire backend folder to maintain the structure (optional if you need to preserve the folder structure)
-COPY backend/ /root/backend/
-
-# Copy the frontend folder as-is to maintain the structure
-COPY frontend/ /root/frontend/
-
-# Expose port 8080 for the Go backend
+# Expose port 8080
 EXPOSE 8080
 
-# Run the Go server binary
-CMD ["./go-server"]
+# Set air as the command to run, it will watch the Go files and reload on changes
+CMD ["air"]
+
+

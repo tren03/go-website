@@ -1,21 +1,18 @@
-</html>
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8" />
-    <title>Artechcles</title>
+    <title>Artechles</title>
     <style>
         body {
             font-family: "Courier New", Courier, monospace;
             font-size: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
             margin: 0;
             background-color: #f4f4f4;
+            position: relative;
+            overflow: hidden;
+            height: 100vh; /* Ensure full viewport height */
         }
 
         nav {
@@ -24,6 +21,8 @@
             color: #fff;
             padding: 20px;
             text-align: center;
+            z-index: 10;
+            position: relative;
         }
 
         nav a {
@@ -38,6 +37,9 @@
             max-width: 800px;
             margin: 0 auto;
             text-align: center;
+            z-index: 10;
+            position: relative;
+            overflow-y: auto; /* Make the post container scrollable */
         }
 
         .post {
@@ -48,25 +50,24 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 80%;
             max-width: 600px;
-            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            transition:
+                transform 0.3s ease,
+                background-color 0.3s ease,
+                box-shadow 0.3s ease;
             word-wrap: break-word;
-            /* Ensures long text like URLs or unbroken strings wrap */
             overflow-wrap: break-word;
-            /* For older browsers */
         }
 
         .post:hover {
             background-color: #f9f9f9;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
             transform: scale(1.05);
-            /* Slightly increases the size of the post on hover */
         }
 
         .post h2 {
             font-size: 28px;
             margin-bottom: 15px;
             word-wrap: break-word;
-            /* Ensures long titles wrap */
             overflow-wrap: break-word;
         }
 
@@ -74,42 +75,68 @@
             font-size: 20px;
             line-height: 1.8;
             word-wrap: break-word;
-            /* Ensures long paragraphs wrap */
             overflow-wrap: break-word;
         }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+            overflow-y: auto;
+            height: 100%;
+        }
+
     </style>
 </head>
 
 <body>
+    <!-- Particle JS container -->
+    <div id="particles-js"></div>
+
     <nav>
         <a href="/">Home</a>
         <a href="/allposts">Posts</a>
         <a href="/about">About</a>
         <a href="/contact">Contact</a>
     </nav>
-    <main id="posts-container">
-        <p>Loading posts...</p>
-        <!-- Posts will be rendered here -->
-    </main>
 
+    <div class="content-wrapper">
+        <main id="posts-container" class="post-container">
+            <p>Loading posts...</p>
+            <!-- Posts will be rendered here -->
+        </main>
+    </div>
 </body>
+
 <script>
     async function fetchAndRender() {
-
-        const cachedPosts = sessionStorage.getItem('cachedPosts-artechcles');
+        const cachedPosts = sessionStorage.getItem(
+            "cachedPosts-artechcles",
+        );
         if (cachedPosts) {
-            console.log('Using cached data');
+            console.log("Using cached data");
             render(JSON.parse(cachedPosts)); // Parse cached JSON string
             attachEventListeners();
             return;
         }
         const response = await fetch("/posts");
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error("Network response was not ok");
         }
 
         const posts = await response.json();
-        sessionStorage.setItem('cachedPosts-artechcles', JSON.stringify(posts)); // Cache the response in sessionStorage
+        sessionStorage.setItem(
+            "cachedPosts-artechcles",
+            JSON.stringify(posts),
+        ); // Cache the response in sessionStorage
         render(posts);
         attachEventListeners(); // Attach event listeners after rendering posts
     }
@@ -125,18 +152,20 @@
         postContainer.innerHTML = ""; // Clear the container
 
         posts.forEach((post) => {
-            const postElement = document.createElement('div');
+            const postElement = document.createElement("div");
             postElement.innerHTML = `
                 <a href="${post.Url}" style="text-decoration: none; color: inherit;">
                     <div class="post" id="${post.ID}">
                         <h2>${post.Title}</h2>
-                        <p class="date-added">Date Added: ${new Date(post.Date).toLocaleString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false // Use true for 12-hour format with AM/PM
+                        <p class="date-added">Date Added: ${new Date(
+                post.Date,
+            ).toLocaleString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: false, // Use true for 12-hour format with AM/PM
             })}</p>
                         <p>${post.Body}</p>
                         <p>URL: ${post.Url}</p>
@@ -152,14 +181,86 @@
 
     // Function to attach click event listeners to each post
     function attachEventListeners() {
-        const posts = document.querySelectorAll('.post');
+        const posts = document.querySelectorAll(".post");
         posts.forEach((post) => {
-            post.addEventListener('click', function () {
-                console.log('Post clicked:', post.id);
+            post.addEventListener("click", function () {
+                console.log("Post clicked:", post.id);
             });
         });
     }
 </script>
 
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script>
+    particlesJS("particles-js", {
+        particles: {
+            number: {
+                value: 120,
+                density: {
+                    enable: true,
+                    value_area: 800,
+                },
+            },
+            color: {
+                value: "#999999",
+            },
+            shape: {
+                type: "triangle",
+                stroke: {
+                    width: 0,
+                    color: "#000000",
+                },
+            },
+            opacity: {
+                value: 0.4,
+            },
+            size: {
+                value: 3,
+            },
+            line_linked: {
+                enable: true,
+                distance: 150,
+                color: "#999999",
+                opacity: 0.4,
+                width: 1,
+            },
+            move: {
+                enable: true,
+                speed: 3,
+                direction: "none",
+                random: false,
+                straight: false,
+                out_mode: "out",
+                bounce: false,
+                attract: {
+                    enable: false,
+                },
+            },
+        },
+        interactivity: {
+            detect_on: "canvas",
+            events: {
+                onhover: {
+                    enable: true,
+                    mode: "bubble",
+                },
+                onclick: {
+                    enable: false,
+                    mode: "push",
+                },
+            },
+            modes: {
+                bubble: {
+                    distance: 150,
+                    size: 10,
+                    duration: 2,
+                    opacity: 0.8,
+                },
+            },
+        },
+        retina_detect: true,
+    });
+</script>
 
 </html>
+

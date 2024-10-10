@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Artechcles</title>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <title>Artechles</title>
     <style>
         body {
             font-family: "Courier New", Courier, monospace;
@@ -13,6 +14,8 @@
             min-height: 100vh;
             margin: 0;
             background-color: #f4f4f4;
+            position: relative; /* Ensure particles appear as background */
+            overflow: hidden;
         }
         nav {
             width: 100%;
@@ -20,6 +23,7 @@
             color: #fff;
             padding: 20px;
             text-align: center;
+            z-index: 10; /* Ensure navigation stays on top of particles */
         }
         nav a {
             color: #fff;
@@ -36,6 +40,7 @@
             background-color: #ffffff;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 10; /* Ensure content stays on top of particles */
         }
         h1 {
             font-size: 36px;
@@ -45,9 +50,20 @@
             font-size: 20px;
             line-height: 1.8;
         }
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1; /* Ensure particles are behind everything */
+        }
     </style>
 </head>
 <body>
+    <!-- Particle JS container -->
+    <div id="particles-js"></div>
+
     <nav>
         <a href="/">Home</a>
         <a href="/allposts">Posts</a>
@@ -57,7 +73,7 @@
     <main class="content-container">
         <h1>About This Site</h1>
         <p>
-            Welcome to Artechcles! I built this site to share interesting tech articles that I come across. 
+            Welcome to Artechles! I built this site to share interesting tech articles that I come across. 
             It's a way for me to keep track of these articles and also share them with others who might find them helpful or fascinating.
         </p>
         <p>
@@ -72,4 +88,77 @@
     </main>
     
 </body>
+
+    <script>
+        particlesJS("particles-js", {
+            particles: {
+                number: {
+                    value: 120,
+                    density: {
+                        enable: true,
+                        value_area: 800,
+                    },
+                },
+                color: {
+                    value: "#999999",
+                },
+                shape: {
+                    type: "triangle",
+                    stroke: {
+                        width: 0,
+                        color: "#000000",
+                    },
+                },
+                opacity: {
+                    value: 0.4,
+                },
+                size: {
+                    value: 3,
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#999999",
+                    opacity: 0.4,
+                    width: 1,
+                },
+                move: {
+                    enable: true,
+                    speed: 3,
+                    direction: "none",
+                    random: false,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                    attract: {
+                        enable: false,
+                    },
+                },
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: "bubble",
+                    },
+                    onclick: {
+                        enable: false,
+                        mode: "push",
+                    },
+                },
+                modes: {
+                    bubble: {
+                        distance: 150,
+                        size: 10,
+                        duration: 2,
+                        opacity: 0.8,
+                    },
+                },
+            },
+            retina_detect: true,
+        });
+    </script>
 </html>
+
+
