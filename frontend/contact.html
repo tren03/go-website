@@ -1,10 +1,8 @@
-<!doctype html>
-<html lang="en">
-
+<!DOCTYPE html> <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <title>Artechles</title>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <style>
         body {
             font-family: "Courier New", Courier, monospace;
@@ -15,19 +13,17 @@
             min-height: 100vh;
             margin: 0;
             background-color: #f4f4f4;
-            position: relative;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: scroll;
         }
-
         nav {
             width: 100%;
             background-color: #333;
             color: #fff;
+            z-index: 10;
             padding: 20px;
             text-align: center;
-            z-index: 10;
         }
-
         nav a {
             color: #fff;
             text-decoration: none;
@@ -36,6 +32,7 @@
         }
 
         .content-container {
+            z-index: 10;
             width: 80%;
             max-width: 800px;
             margin: 50px auto;
@@ -44,67 +41,57 @@
             background-color: #ffffff;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            z-index: 5;
-            position: relative;
         }
-
         h1 {
             font-size: 36px;
             margin-bottom: 20px;
         }
-
         p {
             font-size: 20px;
             line-height: 1.8;
         }
-
+        .contact-info {
+            margin-top: 20px;
+            font-size: 18px;
+        }
         #particles-js {
             position: absolute;
             width: 100%;
             height: 100%;
             top: 0;
             left: 0;
-            z-index: 1;
-            /* Ensure particles are behind everything */
-            pointer-events: none;
-            /* Prevent interaction with the particles layer */
+            z-index: 1; /* Ensure particles are behind everything */
         }
     </style>
 </head>
-
 <body>
-    <!-- Particle JS container -->
-    <div id="particles-js"></div>
 
+    <div id="particles-js"></div>
     <nav>
         <a href="/">Home</a>
         <a href="/allposts">Posts</a>
         <a href="/about">About</a>
         <a href="/contact">Contact</a>
     </nav>
-
     <main class="content-container">
-        <h1>About This Site</h1>
+        <h1>Get in Touch</h1>
         <p>
-            Welcome to Artechles! I built this site to share interesting
-            tech articles that I come across. It's a way for me to keep
-            track of these articles and also share them with others who
-            might find them helpful or fascinating.
+            Have some cool tech articles you want to share? Or just want to say hi? I'd love to hear from you! 
         </p>
         <p>
-            Please note that none of the articles posted on this site are
-            written by me. All credit goes to the original authors and
-            sources, and links to the original articles are provided for
-            proper attribution.
+            Here’s how you can reach me:
         </p>
+        <div class="contact-info">
+            <p><strong>Email:</strong> vishnusethuraman@gmail.com</p>
+            <p><strong>Github:</strong> https://github.com/tren03</p>
+        </div>
         <p>
-            Fun fact: This website was written in <strong>Go</strong> and
-            <strong>HTML</strong> (because who doesn't love a good combo of
-            simplicity and speed?). But wait, there's more! I'm planning to
-            rewrite the frontend with a fancy framework soon. React, Vue,
-            Svelte... who knows? Stay tuned for that glow-up!
+    
         </p>
+
     </main>
+</body>
+
 
     <script>
         particlesJS("particles-js", {
@@ -176,6 +163,4 @@
             retina_detect: true,
         });
     </script>
-</body>
-
 </html>
