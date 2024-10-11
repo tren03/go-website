@@ -1,0 +1,3 @@
+during development, i use docker-compose with volumes mounted and air in dockerfile to do hot reload, the .env path is given in docker-compose
+
+during prod, i use a different dockerfile which generates binary and .env given at runtime, in railway, ill inject the env files directly

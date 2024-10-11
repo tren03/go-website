@@ -1,8 +1,12 @@
-<!DOCTYPE html> <html lang="en">
+<!doctype html>
+<html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <title>Artechles</title>
+        <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
     <style>
         body {
             font-family: "Courier New", Courier, monospace;
@@ -16,6 +20,7 @@
             overflow-x: hidden;
             overflow-y: scroll;
         }
+
         nav {
             width: 100%;
             background-color: #333;
@@ -24,6 +29,7 @@
             padding: 20px;
             text-align: center;
         }
+
         nav a {
             color: #fff;
             text-decoration: none;
@@ -32,6 +38,10 @@
         }
 
         .content-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
             z-index: 10;
             width: 80%;
             max-width: 800px;
@@ -41,31 +51,122 @@
             background-color: #ffffff;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            height: 100%;
         }
+
         h1 {
             font-size: 36px;
+            width: 100%;
             margin-bottom: 20px;
         }
+
         p {
-            font-size: 20px;
             line-height: 1.8;
         }
+
         .contact-info {
-            margin-top: 20px;
-            font-size: 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
         }
+
+        .email {
+            font-size: 20px;
+            margin-bottom: 0;
+            padding-bottom: 0;
+            width:100%;
+        }
+
+        .github {
+            font-size: 20px;
+            margin: 0;
+            width:100%;
+        }
+
         #particles-js {
             position: absolute;
             width: 100%;
             height: 100%;
             top: 0;
             left: 0;
-            z-index: 1; /* Ensure particles are behind everything */
+            z-index: 1;
+            /* Ensure particles are behind everything */
         }
+
+        /* Wrapper for input and dollar sign */
+
+        .input-wrapper {
+            border: 2px solid #000;
+            padding: 8px;
+            font-size: 16px;
+            display: flex;
+            gap: 1em;
+            align-items: center;
+            justify-content: center;
+            width: 60%;
+        }
+
+        .input-wrapper .dollar-sign {
+            color: black;
+        }
+
+        /* Terminal-like input styling */
+        #search {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            font-family: "Courier New", Courier, monospace;
+            border: none;
+            outline: none;
+        }
+
+        /* Placeholder styling to match the terminal theme */
+        #search::placeholder {
+            opacity: 0.8;
+        }
+
+        .help-menu {
+            font-size: 16px;
+            margin: 0;
+            text-align: left;
+            padding-bottom: 10px;
+        }
+
+        .main-text {
+            margin: 0;
+        }
+
+        #gopher {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 300px;
+            transform: translate(-400px, -50%);
+            /* Start fully off-screen */
+            z-index: 1000;
+            animation: runAcross 5s linear forwards;
+        }
+
+        @keyframes runAcross {
+            0% {
+                transform: translate(-400px, -50%);
+                /* Start off the screen on the left */
+            }
+
+            100% {
+                transform: translate(100vw, -50%);
+                /* Move beyond the right side of the screen */
+            }
+        }
+
+
+
     </style>
 </head>
-<body>
 
+<body>
     <div id="particles-js"></div>
     <nav>
         <a href="/">Home</a>
@@ -75,92 +176,195 @@
     </nav>
     <main class="content-container">
         <h1>Get in Touch</h1>
-        <p>
-            Have some cool tech articles you want to share? Or just want to say hi? I'd love to hear from you! 
+        <p class="main-text">
+            Have some cool tech articles you want to share? Or just want to
+            say hi? I'd love to hear from you!
         </p>
-        <p>
-            Here’s how you can reach me:
+        <p style="margin: 0; font-size: 20px">Try:</p>
+        <p class="help-menu">
+            📄 curl resume (Open resume) <br />
+            🌐 curl github (Open GitHub) <br />
+            📧 curl gmail (Opens Gmail) <br />
+            📧 curl email (Opens Your default email client) <br />
+            ⭐ party (Why dont you try it out?)
         </p>
-        <div class="contact-info">
-            <p><strong>Email:</strong> vishnusethuraman@gmail.com</p>
-            <p><strong>Github:</strong> https://github.com/tren03</p>
+        <div class="input-wrapper">
+            <span class="dollar-sign">$</span>
+            <input type="text" id="search" placeholder="Enter command" autocomplete="off"
+                onkeydown="commandSearch(this)" autofocus />
+            <span id="mode">TERM</span>
         </div>
-        <p>
-    
-        </p>
 
+        <div class="contact-info">
+            <p class="email">Here are the links if you are boring 🙃</p>
+            <p class="email">
+                <strong>Email:</strong>vishnusethuraman.work@gmail.com
+            </p>
+            <p class="github">
+                <strong>Github:</strong>
+                <a href="https://github.com/tren03" target="_blank">https://github.com/tren03</a>
+            </p>
+
+            <p class="github">
+                <strong>Resume:</strong><a href="/assets/Vishnu_resume_website.pdf" target="_blank">My Resume</a>
+            </p>
+        </div>
     </main>
 </body>
+<script>
+    function commandSearch(ele) {
+        let query = ele.value.trim().toLowerCase();
+        if (event.key === "Enter" && query === "curl github") {
+            window.open("https://github.com/tren03");
+        }
+
+        if (event.key === "Enter" && query === "curl resume") {
+            window.open("/assets/Vishnu_resume_website.pdf", "_blank", "fullscreen=yes");
+        }
+
+        if (event.key === "Enter" && query === "curl gmail") {
+            const senderEmail = "vishnusethuraman.work@gmail.com";
+            window.open(
+                `https://mail.google.com/mail/?view=cm&fs=1&to=${senderEmail}`,
+            );
+        }
+
+        if (event.key === "Enter" && query === "curl email") {
+            const senderEmail = "vishnusethuraman@gmail.com";
+            window.location.href = `mailto:${senderEmail}`;
+        }
+        if (event.key === "Enter" && query === "party") {
+            let body = document.body;
+
+            // Add the gopher image to the DOM with an ID for targeting with CSS
+            body.insertAdjacentHTML(
+                "beforeend",
+                '<img id="gopher" src="/assets/race-gopher-cut.gif" alt="racing-gopher" />',
+            );
+
+            // Remove the gopher after the animation completes
+            setTimeout(() => {
+                const gopher = document.getElementById("gopher");
+                if (gopher) gopher.remove();
+            }, 5000); // 5 seconds, adjust based on animation duration
 
 
-    <script>
-        particlesJS("particles-js", {
-            particles: {
-                number: {
-                    value: 120,
-                    density: {
-                        enable: true,
-                        value_area: 800,
-                    },
-                },
-                color: {
-                    value: "#999999",
-                },
-                shape: {
-                    type: "triangle",
-                    stroke: {
-                        width: 0,
-                        color: "#000000",
-                    },
-                },
-                opacity: {
-                    value: 0.4,
-                },
-                size: {
-                    value: 3,
-                },
-                line_linked: {
+            // confetti
+            const duration = 5 * 1000,
+                animationEnd = Date.now() + duration,
+                defaults = {
+                    startVelocity: 30,
+                    spread: 360,
+                    ticks: 60,
+                    zIndex: 0,
+                };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            const interval = setInterval(function () {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 50 * (timeLeft / duration);
+
+                // since particles fall down, start a bit higher than random
+                confetti(
+                    Object.assign({}, defaults, {
+                        particleCount,
+                        origin: {
+                            x: randomInRange(0.1, 0.3),
+                            y: Math.random() - 0.2,
+                        },
+                    }),
+                );
+                confetti(
+                    Object.assign({}, defaults, {
+                        particleCount,
+                        origin: {
+                            x: randomInRange(0.7, 0.9),
+                            y: Math.random() - 0.2,
+                        },
+                    }),
+                );
+            }, 250);
+        }
+    }
+</script>
+
+<script>
+    particlesJS("particles-js", {
+        particles: {
+            number: {
+                value: 120,
+                density: {
                     enable: true,
+                    value_area: 800,
+                },
+            },
+            color: {
+                value: "#999999",
+            },
+            shape: {
+                type: "triangle",
+                stroke: {
+                    width: 0,
+                    color: "#000000",
+                },
+            },
+            opacity: {
+                value: 0.4,
+            },
+            size: {
+                value: 3,
+            },
+            line_linked: {
+                enable: true,
+                distance: 150,
+                color: "#999999",
+                opacity: 0.4,
+                width: 1,
+            },
+            move: {
+                enable: true,
+                speed: 3,
+                direction: "none",
+                random: false,
+                straight: false,
+                out_mode: "out",
+                bounce: false,
+                attract: {
+                    enable: false,
+                },
+            },
+        },
+        interactivity: {
+            detect_on: "canvas",
+            events: {
+                onhover: {
+                    enable: true,
+                    mode: "bubble",
+                },
+                onclick: {
+                    enable: false,
+                    mode: "push",
+                },
+            },
+            modes: {
+                bubble: {
                     distance: 150,
-                    color: "#999999",
-                    opacity: 0.4,
-                    width: 1,
-                },
-                move: {
-                    enable: true,
-                    speed: 3,
-                    direction: "none",
-                    random: false,
-                    straight: false,
-                    out_mode: "out",
-                    bounce: false,
-                    attract: {
-                        enable: false,
-                    },
+                    size: 10,
+                    duration: 2,
+                    opacity: 0.8,
                 },
             },
-            interactivity: {
-                detect_on: "canvas",
-                events: {
-                    onhover: {
-                        enable: true,
-                        mode: "bubble",
-                    },
-                    onclick: {
-                        enable: false,
-                        mode: "push",
-                    },
-                },
-                modes: {
-                    bubble: {
-                        distance: 150,
-                        size: 10,
-                        duration: 2,
-                        opacity: 0.8,
-                    },
-                },
-            },
-            retina_detect: true,
-        });
-    </script>
+        },
+        retina_detect: true,
+    });
+</script>
+
 </html>

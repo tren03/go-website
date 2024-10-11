@@ -7,6 +7,8 @@ services:
       dockerfile: Dockerfile  # The Dockerfile to use
     ports:
       - "8080:8080"  # Expose the Go server on port 8080
+    env_file:
+      - .env
     volumes:
       - ./backend:/root/backend  # Sync backend files for live reloading
       - ./frontend:/root/frontend  # Sync frontend files

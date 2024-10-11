@@ -65,8 +65,8 @@ func main() {
 	// handles /allposts to provide most recent data always
 	router.Get("/allposts", handlers.HandleAllPosts)
 
-    // handles json response to index.html
-    router.Get("/posts",handlers.HandleAutoViewPosts)
+	// handles json response to index.html
+	router.Get("/posts", handlers.HandleAutoViewPosts)
 
 	// handles rendering the login page
 	router.Get("/loginView", handlers.HandleLoginView)
@@ -89,12 +89,10 @@ func main() {
 	// handles /about for rendering the about page
 	router.Get("/contact", handlers.HandleContact)
 
-    router.Get("/time",handlers.HandleTime)
 
-    router.Handle("/assets/*", http.StripPrefix("/assets/", http.FileServer(http.Dir("/root/frontend/assets/"))))
+	router.Handle("/assets/*", http.StripPrefix("/assets/", http.FileServer(http.Dir("/root/frontend/assets/"))))
 
 	fmt.Println("server started at 8080")
 	http.ListenAndServe(":8080", router)
 
 }
-

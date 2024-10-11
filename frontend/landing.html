@@ -1,375 +1,379 @@
 <!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Landing</title>
-    <script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
-    <script type="text/javascript" src="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.min.js"></script>
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-    <script src="https://unpkg.com/cal-heatmap/dist/plugins/Tooltip.min.js"></script>
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.css" />
-    <style>
-        body {
-            font-family: "Courier New", Courier, monospace;
-            font-size: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            position: relative;
-            overflow-y: hidden;
-            overflow-x: hidden;
-            background-color: #f4f4f4;
-        }
-
-        nav {
-            width: 100%;
-            background-color: #333;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-            z-index: 10;
-        }
-
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 15px;
-            font-size: 22px;
-        }
-
-        h2 {
-            margin: 0;
-        }
-
-        .main-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            padding: 1rem;
-            z-index: 10;
-            background-color: white;
-            position: relative;
-            text-align: center;
-            padding: 50px;
-            color: #333;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            margin-top: 50px;
-            transition: transform 0.3s ease-in-out;
-            width: 80%;
-            max-width: 1200px;
-            /* Set the height to take up most of the viewport */
-            max-height: 75vh;
-        }
-
-        .main-container img {
-            max-width: 100%;
-            /* Ensures the image scales down to fit within the container's width */
-            height: auto;
-            /* Maintains the aspect ratio of the image */
-            display: block;
-            /* Removes any extra space below the image */
-            margin: 0 auto;
-            /* Centers the image horizontally if the container is larger than the image */
-        }
-
-        .main-container:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        #particles-js {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
-
-        pre {
-            font-size: 16px;
-            white-space: pre-wrap;
-            /* Allow the ASCII art to wrap on small screens */
-            word-wrap: break-word;
-            /* Prevent long lines from overflowing */
-            text-align: center;
-            overflow: auto;
-        }
-
-        h1 {
-            font-size: 3em;
-            margin-top: 20px;
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2em;
-            }
-
-            nav a {
-                font-size: 18px;
-            }
-
-            .main-container {
-                padding: 30px;
-                margin: 30px;
-            }
-
-            pre {
-                font-size: 12px;
-                /* Reduce ASCII art font size on smaller screens */
-            }
-
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Artechles</title>
+        <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+        <script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
+        <script
+            type="text/javascript"
+            src="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.min.js"
+        ></script>
+        <script src="https://unpkg.com/@popperjs/core@2"></script>
+        <script src="https://unpkg.com/cal-heatmap/dist/plugins/Tooltip.min.js"></script>
+        <link
+            rel="stylesheet"
+            href="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.css"
+        />
+        <style>
             body {
-                font-size: 18px;
+                font-family: "Courier New", Courier, monospace;
+                font-size: 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+                position: relative;
+                overflow-y: hidden;
+                overflow-x: hidden;
+                background-color: #f4f4f4;
             }
-        }
 
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.8em;
-            }
-
-            nav a {
-                font-size: 16px;
-                margin: 0 10px;
-            }
-
-            .main-container {
+            nav {
+                width: 100%;
+                background-color: #333;
+                color: #fff;
                 padding: 20px;
-                margin: 20px;
+                text-align: center;
+                z-index: 10;
+            }
+
+            nav a {
+                color: #fff;
+                text-decoration: none;
+                margin: 0 15px;
+                font-size: 22px;
+            }
+
+            h2 {
+                margin: 0;
+            }
+
+            .main-container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                padding: 1rem;
+                z-index: 10;
+                background-color: white;
+                position: relative;
+                text-align: center;
+                padding: 50px;
+                color: #333;
+                border-radius: 15px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+                margin-top: 50px;
+                transition: transform 0.3s ease-in-out;
+                width: 80%;
+                max-width: 1200px;
+                /* Set the height to take up most of the viewport */
+                max-height: 75vh;
+            }
+
+            .main-container img {
+                max-width: 100%;
+                /* Ensures the image scales down to fit within the container's width */
+                height: auto;
+                /* Maintains the aspect ratio of the image */
+                display: block;
+                /* Removes any extra space below the image */
+                margin: 0 auto;
+                /* Centers the image horizontally if the container is larger than the image */
+            }
+
+            .main-container:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            }
+
+            #particles-js {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                z-index: 1;
             }
 
             pre {
-                font-size: 10px;
-                /* Further reduce ASCII art font size for mobile */
-            }
-
-            body {
                 font-size: 16px;
+                white-space: pre-wrap;
+                /* Allow the ASCII art to wrap on small screens */
+                word-wrap: break-word;
+                /* Prevent long lines from overflowing */
+                text-align: center;
+                overflow: auto;
             }
-        }
 
-        .ch-tooltips{
-            z-index: 9999;
-        }
+            h1 {
+                font-size: 3em;
+                margin-top: 20px;
+            }
 
+            /* Responsive Styles */
+            @media (max-width: 768px) {
+                h1 {
+                    font-size: 2em;
+                }
 
-        /* Responsive styles */
-        @media (max-width: 768px) {
-        }
+                nav a {
+                    font-size: 18px;
+                }
 
-        @media (max-width: 480px) {
-        }
-    </style>
-</head>
+                .main-container {
+                    padding: 30px;
+                    margin: 30px;
+                }
 
-<body>
-    <!-- Particle JS container -->
-    <div id="particles-js"></div>
+                pre {
+                    font-size: 12px;
+                    /* Reduce ASCII art font size on smaller screens */
+                }
 
-    <nav>
-        <a href="/">Home</a>
-        <a href="/allposts">Posts</a>
-        <a href="/about">About</a>
-        <a href="/contact">Contact</a>
-    </nav>
+                body {
+                    font-size: 18px;
+                }
+            }
 
-    <div class="main-container">
-        <h2>Welcome to</h2>
+            @media (max-width: 480px) {
+                h1 {
+                    font-size: 1.8em;
+                }
 
-        <div class="ascii">
-            <img src="/assets/asc.png" alt="ACSCII ART" />
-        </div>
+                nav a {
+                    font-size: 16px;
+                    margin: 0 10px;
+                }
 
-        <img src="/assets/dancing-gopher.gif" alt="ACSCII ART" />
+                .main-container {
+                    padding: 20px;
+                    margin: 20px;
+                }
 
-        <p>
-            Head over to the posts section to read some quality content 👏
-            👏<br />
-            The graph looks cool right?
-        </p>
+                pre {
+                    font-size: 10px;
+                    /* Further reduce ASCII art font size for mobile */
+                }
 
-        <div class="commit-history-container">
-            <div id="cal-heatmap">
-                <script type="text/javascript">
-                    async function fetchAndRender() {
-                        const cachedPosts = sessionStorage.getItem(
-                            "cachedPosts-artechcles",
-                        );
+                body {
+                    font-size: 16px;
+                }
+            }
 
-                        if (cachedPosts) {
-                            console.log("Using cached data");
-                            let parse_json = JSON.parse(cachedPosts);
+            .ch-tooltips {
+                z-index: 9999;
+            }
 
-                            console.log(parse_json[0].Date);
-                            let js_date = new Date(parse_json[0].Date);
-                            console.log("js date ", js_date);
+            /* Responsive styles */
+            @media (max-width: 768px) {
+            }
 
-                            let unix_time = Math.floor(
-                                js_date.getTime() / 1000,
+            @media (max-width: 480px) {
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- Particle JS container -->
+        <div id="particles-js"></div>
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="/allposts">Posts</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+        </nav>
+
+        <div class="main-container">
+            <h2>Welcome to</h2>
+
+            <div class="ascii">
+                <img src="/assets/asc.png" alt="ACSCII ART" />
+            </div>
+
+            <img src="/assets/dancing-gopher.gif" alt="ACSCII ART" />
+
+            <p>
+                Head over to the posts section to read some quality content 👏
+                👏<br />
+                The graph looks cool right?
+            </p>
+
+            <div class="commit-history-container">
+                <div id="cal-heatmap">
+                    <script type="text/javascript">
+                        async function fetchAndRender() {
+                            const cachedPosts = sessionStorage.getItem(
+                                "cachedPosts-artechcles",
                             );
-                            console.log("unixtime ", unix_time);
-                            return;
+
+                            if (cachedPosts) {
+                                console.log("Using cached data");
+                                let parse_json = JSON.parse(cachedPosts);
+
+                                console.log(parse_json[0].Date);
+                                let js_date = new Date(parse_json[0].Date);
+                                console.log("js date ", js_date);
+
+                                let unix_time = Math.floor(
+                                    js_date.getTime() / 1000,
+                                );
+                                console.log("unixtime ", unix_time);
+                                return;
+                            }
+
+                            const response = await fetch("/posts");
+                            if (!response.ok) {
+                                throw new Error("Network response was not ok");
+                            }
+
+                            const posts = await response.json();
+                            sessionStorage.setItem(
+                                "cachedPosts-artechcles",
+                                JSON.stringify(posts),
+                            ); // Cache the response in sessionStorage
                         }
 
-                        const response = await fetch("/posts");
-                        if (!response.ok) {
-                            throw new Error("Network response was not ok");
-                        }
-
-                        const posts = await response.json();
-                        sessionStorage.setItem(
-                            "cachedPosts-artechcles",
-                            JSON.stringify(posts),
-                        ); // Cache the response in sessionStorage
-                    }
-
-                    async function GetTimeList() {
-                        await fetchAndRender();
-                        let timeList = {};
-                        console.log("entered here");
-                        const posts = sessionStorage.getItem(
-                            "cachedPosts-artechcles",
-                        );
-                        let arr = JSON.parse(posts);
-                        arr.forEach((obj) => {
-                            console.log(obj.Date);
-                            let js_date = new Date(obj.Date);
-                            console.log("js date ", js_date);
-                            let unix_time = Math.floor(
-                                js_date.getTime() / 1000,
+                        async function GetTimeList() {
+                            await fetchAndRender();
+                            let timeList = {};
+                            console.log("entered here");
+                            const posts = sessionStorage.getItem(
+                                "cachedPosts-artechcles",
                             );
-                            console.log("unixtime ", unix_time);
-                            timeList[unix_time] = 1;
-                        });
-                        console.log(timeList);
-                        return timeList;
-                    }
-                    async function initCalHeatMap() {
-                        var monthsToShow = window.innerWidth < 768 ? 4 : 6;
-                        var tilesize = window.innerWidth < 768 ? 10 : 15;
-                        const data = await GetTimeList();
+                            let arr = JSON.parse(posts);
+                            arr.forEach((obj) => {
+                                console.log(obj.Date);
+                                let js_date = new Date(obj.Date);
+                                console.log("js date ", js_date);
+                                let unix_time = Math.floor(
+                                    js_date.getTime() / 1000,
+                                );
+                                console.log("unixtime ", unix_time);
+                                timeList[unix_time] = 1;
+                            });
+                            console.log(timeList);
+                            return timeList;
+                        }
+                        async function initCalHeatMap() {
+                            var monthsToShow = window.innerWidth < 768 ? 4 : 6;
+                            var tilesize = window.innerWidth < 768 ? 10 : 15;
+                            const data = await GetTimeList();
 
-                        var cal = new CalHeatMap();
-                        cal.init({
-                            itemSelector: "#cal-heatmap",
-                            domain: "month",
-                            subDomain: "day",
-                            start: new Date(
-                                new Date().setMonth(
-                                    new Date().getMonth() -
-                                    monthsToShow +
-                                    1,
+                            var cal = new CalHeatMap();
+                            cal.init({
+                                itemSelector: "#cal-heatmap",
+                                domain: "month",
+                                subDomain: "day",
+                                start: new Date(
+                                    new Date().setMonth(
+                                        new Date().getMonth() -
+                                            monthsToShow +
+                                            1,
+                                    ),
                                 ),
-                            ),
-                            data: data,
-                            cellSize: tilesize,
-                            range: monthsToShow,
-                            legend: [20, 40, 60, 80],
-                            tooltip: true
-                        });
-                    }
+                                data: data,
+                                cellSize: tilesize,
+                                range: monthsToShow,
+                                legend: [1, 3, 5, 7],
+                                tooltip: true,
+                            });
+                        }
 
-                    // Correct way to add Tooltip plugin
-                    // Initialize the heatmap when the page loads
-                    initCalHeatMap();
-
-                    // Add an event listener to handle window resize and adjust months
-                    window.addEventListener("resize", function () {
-                        // Clear the existing heatmap
-                        document.querySelector("#cal-heatmap").innerHTML =
-                            "";
-
-                        // Reinitialize with the new range based on the window width
+                        // Correct way to add Tooltip plugin
+                        // Initialize the heatmap when the page loads
                         initCalHeatMap();
-                    });
-                </script>
+
+                        // Add an event listener to handle window resize and adjust months
+                        window.addEventListener("resize", function () {
+                            // Clear the existing heatmap
+                            document.querySelector("#cal-heatmap").innerHTML =
+                                "";
+
+                            // Reinitialize with the new range based on the window width
+                            initCalHeatMap();
+                        });
+                    </script>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Load particles.js library -->
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+        <!-- Load particles.js library -->
+        <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
-    <!-- Particle JS Configuration -->
-    <script>
-        particlesJS("particles-js", {
-            particles: {
-                number: {
-                    value: 120 /* Adjust the number of particles */,
-                    density: {
+        <!-- Particle JS Configuration -->
+        <script>
+            particlesJS("particles-js", {
+                particles: {
+                    number: {
+                        value: 120 /* Adjust the number of particles */,
+                        density: {
+                            enable: true,
+                            value_area: 800,
+                        },
+                    },
+                    color: {
+                        value: "#999999" /* Neutral gray color for the particles */,
+                    },
+                    shape: {
+                        type: "triangle",
+                        stroke: {
+                            width: 0,
+                            color: "#000000",
+                        },
+                    },
+                    opacity: {
+                        value: 0.4,
+                    },
+                    size: {
+                        value: 3,
+                    },
+                    line_linked: {
                         enable: true,
-                        value_area: 800,
+                        distance: 150,
+                        color: "#999999",
+                        opacity: 0.4,
+                        width: 1,
                     },
-                },
-                color: {
-                    value: "#999999" /* Neutral gray color for the particles */,
-                },
-                shape: {
-                    type: "triangle",
-                    stroke: {
-                        width: 0,
-                        color: "#000000",
-                    },
-                },
-                opacity: {
-                    value: 0.4,
-                },
-                size: {
-                    value: 3,
-                },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: "#999999",
-                    opacity: 0.4,
-                    width: 1,
-                },
-                move: {
-                    enable: true,
-                    speed: 3,
-                    direction: "none",
-                    random: false,
-                    straight: false,
-                    out_mode: "out",
-                    bounce: false,
-                    attract: {
-                        enable: false,
-                    },
-                },
-            },
-            interactivity: {
-                detect_on: "canvas",
-                events: {
-                    onhover: {
+                    move: {
                         enable: true,
-                        mode: "bubble" /* Bubble mode for hover */,
-                    },
-                    onclick: {
-                        enable: false,
-                        mode: "push" /* Add particles on click */,
-                    },
-                },
-                modes: {
-                    bubble: {
-                        distance: 150, // Distance from mouse for the bubble effect
-                        size: 10, // Maximum size of the bubble on hover
-                        duration: 2, // Duration of the bubble effect in seconds
-                        opacity: 0.8, // Opacity of the bubble
+                        speed: 3,
+                        direction: "none",
+                        random: false,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false,
+                        attract: {
+                            enable: false,
+                        },
                     },
                 },
-            },
-            retina_detect: true,
-        });
-    </script>
-</body>
-
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: {
+                            enable: true,
+                            mode: "bubble" /* Bubble mode for hover */,
+                        },
+                        onclick: {
+                            enable: false,
+                            mode: "push" /* Add particles on click */,
+                        },
+                    },
+                    modes: {
+                        bubble: {
+                            distance: 150, // Distance from mouse for the bubble effect
+                            size: 10, // Maximum size of the bubble on hover
+                            duration: 2, // Duration of the bubble effect in seconds
+                            opacity: 0.8, // Opacity of the bubble
+                        },
+                    },
+                },
+                retina_detect: true,
+            });
+        </script>
+    </body>
 </html>

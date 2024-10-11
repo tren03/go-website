@@ -81,6 +81,7 @@ func HandleAutoViewPosts(w http.ResponseWriter, r *http.Request) {
 
 	connStr := os.Getenv("CONN_STR")
 
+
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		log.Fatalln("Could not connect to Database:", err)
@@ -363,6 +364,3 @@ func HandleDeletePost(w http.ResponseWriter, r *http.Request) {
 }
 
 
-func HandleTime(w http.ResponseWriter,r *http.Request){
-
-}
