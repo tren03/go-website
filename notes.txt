@@ -1,3 +1,10 @@
 during development, i use docker-compose with volumes mounted and air in dockerfile to do hot reload, the .env path is given in docker-compose
 
 during prod, i use a different dockerfile which generates binary and .env given at runtime, in railway, ill inject the env files directly
+
+
+
+testing prod build locally
+sudo docker build -t "artechles-test-image" .
+sudo docker run --env-file .env -p 8080:8080 artechles-test-image
+
