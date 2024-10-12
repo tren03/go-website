@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"go-server/shared"
 	"log"
+	"time"
 
 	_ "github.com/lib/pq"
 )
@@ -34,6 +35,8 @@ import (
 
 // gets all the posts from the database and returns an Array of posts containt
 func PutAllToPostsToArray(db *sql.DB) []shared.Post {
+
+    start := time.Now()
 	rows, err := db.Query("SELECT * FROM posts")
 	if err != nil {
 		log.Println("Could not fetch rows:", err)
@@ -51,15 +54,14 @@ func PutAllToPostsToArray(db *sql.DB) []shared.Post {
 		allPosts = append(allPosts, article)
 	}
 
-	// for _,val := range allPosts{
-	// 	fmt.Println("works")
-	// 	fmt.Println(val)
-	// }
 
 	// Check for any error after finishing the iteration
 	if err = rows.Err(); err != nil {
 		log.Fatalln("Error iterating over rows:", err)
 	}
+    time_taken := time.Since(start)
+
+    log.Println("THE DATABASE FETCH OPERATION TOOK ",time_taken )
 	return allPosts
 }
 

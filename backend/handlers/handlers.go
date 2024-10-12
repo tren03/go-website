@@ -74,6 +74,7 @@ func HandleAdminView(w http.ResponseWriter, r *http.Request) {
 
 // Alternative to HandleViewPosts in which database connection is handled here only /posts
 func HandleAutoViewPosts(w http.ResponseWriter, r *http.Request) {
+    start:= time.Now()
 	err := godotenv.Load("/root/backend/.env")
 	if err != nil {
 		log.Println("Error loading .env file")
@@ -134,6 +135,9 @@ func HandleAutoViewPosts(w http.ResponseWriter, r *http.Request) {
 	// if err != nil {
 	// 	http.Error(w, "Error while writing response", http.StatusInternalServerError)
 	// }
+
+    time_taken := time.Since(start)
+    log.Println("TIME TAKEN TO SEND BACK HTTP RESPONSE ",time_taken)
 
 }
 

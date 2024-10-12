@@ -8,3 +8,6 @@ testing prod build locally
 sudo docker build -t "artechles-test-image" .
 sudo docker run --env-file .env -p 8080:8080 artechles-test-image
 
+
+database fetch operation takes 320ms
+lets see after go routines
