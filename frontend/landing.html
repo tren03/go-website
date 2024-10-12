@@ -69,7 +69,7 @@
                 width: 80%;
                 max-width: 1200px;
                 /* Set the height to take up most of the viewport */
-                max-height: 75vh;
+                max-height: 80%;
             }
 
             .main-container img {
@@ -167,11 +167,6 @@
             }
 
             /* Responsive styles */
-            @media (max-width: 768px) {
-            }
-
-            @media (max-width: 480px) {
-            }
         </style>
     </head>
 
@@ -205,96 +200,110 @@
                 <div id="cal-heatmap">
                     <script type="text/javascript">
                         async function fetchAndRender() {
-                            const cachedPosts = sessionStorage.getItem(
-                                "cachedPosts-artechcles",
-                            );
-
-                            if (cachedPosts) {
-                                console.log("Using cached data");
-                                let parse_json = JSON.parse(cachedPosts);
-
-                                console.log(parse_json[0].Date);
-                                let js_date = new Date(parse_json[0].Date);
-                                console.log("js date ", js_date);
-
-                                let unix_time = Math.floor(
-                                    js_date.getTime() / 1000,
+                            try {
+                                const cachedPosts = sessionStorage.getItem(
+                                    "cachedPosts-artechcles",
                                 );
-                                console.log("unixtime ", unix_time);
-                                return;
-                            }
 
-                            const response = await fetch("/posts");
-                            if (!response.ok) {
-                                throw new Error("Network response was not ok");
-                            }
+                                if (cachedPosts) {
+                                    console.log("Using cached data");
+                                    let parse_json = JSON.parse(cachedPosts);
 
-                            const posts = await response.json();
-                            sessionStorage.setItem(
-                                "cachedPosts-artechcles",
-                                JSON.stringify(posts),
-                            ); // Cache the response in sessionStorage
+                                    console.log(parse_json[0].Date);
+                                    let js_date = new Date(parse_json[0].Date);
+                                    console.log("js date ", js_date);
+
+                                    let unix_time = Math.floor(
+                                        js_date.getTime() / 1000,
+                                    );
+                                    console.log("unixtime ", unix_time);
+                                    return;
+                                }
+
+                                const response = await fetch("/posts");
+                                if (!response.ok) {
+                                    throw new Error(
+                                        "Network response was not ok",
+                                    );
+                                }
+
+                                const posts = await response.json();
+                                sessionStorage.setItem(
+                                    "cachedPosts-artechcles",
+                                    JSON.stringify(posts),
+                                ); // Cache the response in sessionStorage
+                            } catch (err) {
+                                console.log(
+                                    "error during time list request: ",
+                                    err,
+                                );
+                            }
                         }
 
                         async function GetTimeList() {
-                            await fetchAndRender();
-                            let timeList = {};
-                            console.log("entered here");
-                            const posts = sessionStorage.getItem(
-                                "cachedPosts-artechcles",
-                            );
-                            let arr = JSON.parse(posts);
-                            arr.forEach((obj) => {
-                                console.log(obj.Date);
-                                let js_date = new Date(obj.Date);
-                                console.log("js date ", js_date);
-                                let unix_time = Math.floor(
-                                    js_date.getTime() / 1000,
+                            try {
+                                await fetchAndRender();
+                                let timeList = {};
+                                console.log("entered here");
+                                const posts = sessionStorage.getItem(
+                                    "cachedPosts-artechcles",
                                 );
-                                console.log("unixtime ", unix_time);
-                                timeList[unix_time] = 1;
-                            });
-                            console.log(timeList);
-                            return timeList;
+                                let arr = JSON.parse(posts);
+                                arr.forEach((obj) => {
+                                    console.log(obj.Date);
+                                    let js_date = new Date(obj.Date);
+                                    console.log("js date ", js_date);
+                                    let unix_time = Math.floor(
+                                        js_date.getTime() / 1000,
+                                    );
+                                    console.log("unixtime ", unix_time);
+                                    timeList[unix_time] = 1;
+                                });
+                                console.log(timeList);
+                                return timeList;
+                            } catch (err) {
+                                console.error(
+                                    "error parsing time list : ",
+                                    err,
+                                );
+                            }
                         }
+
                         async function initCalHeatMap() {
-                            var monthsToShow = window.innerWidth < 768 ? 4 : 6;
-                            var tilesize = window.innerWidth < 768 ? 10 : 15;
-                            const data = await GetTimeList();
+                            try {
+                                var monthsToShow =
+                                    window.innerWidth < 768 ? 4 : 6;
+                                var tilesize =
+                                    window.innerWidth < 768 ? 10 : 15;
+                                const data = await GetTimeList();
 
-                            var cal = new CalHeatMap();
-                            cal.init({
-                                itemSelector: "#cal-heatmap",
-                                domain: "month",
-                                subDomain: "day",
-                                start: new Date(
-                                    new Date().setMonth(
-                                        new Date().getMonth() -
-                                            monthsToShow +
-                                            1,
+                                var cal = new CalHeatMap();
+                                cal.init({
+                                    itemSelector: "#cal-heatmap",
+                                    domain: "month",
+                                    subDomain: "day",
+                                    start: new Date(
+                                        new Date().setMonth(
+                                            new Date().getMonth() -
+                                                monthsToShow +
+                                                1,
+                                        ),
                                     ),
-                                ),
-                                data: data,
-                                cellSize: tilesize,
-                                range: monthsToShow,
-                                legend: [1, 3, 5, 7],
-                                tooltip: true,
-                            });
+                                    data: data,
+                                    cellSize: tilesize,
+                                    range: monthsToShow,
+                                    legend: [1, 3, 5, 7],
+                                    tooltip: true,
+                                });
+
+                            } catch (err) {
+                                console.error(
+                                    "error rendering html element : ",
+                                    err,
+                                );
+                            }
                         }
-
-                        // Correct way to add Tooltip plugin
-                        // Initialize the heatmap when the page loads
-                        initCalHeatMap();
-
-                        // Add an event listener to handle window resize and adjust months
-                        window.addEventListener("resize", function () {
-                            // Clear the existing heatmap
-                            document.querySelector("#cal-heatmap").innerHTML =
-                                "";
-
-                            // Reinitialize with the new range based on the window width
-                            initCalHeatMap();
-                        });
+                        initCalHeatMap()
                     </script>
                 </div>
             </div>

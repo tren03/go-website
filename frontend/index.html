@@ -156,7 +156,7 @@
         posts.forEach((post) => {
             const postElement = document.createElement("div");
             postElement.innerHTML = `
-                <a href="${post.Url}" style="text-decoration: none; color: inherit;">
+                <a href="${post.Url}" target="_blank" style="text-decoration: none; color: inherit;">
                     <div class="post" id="${post.ID}">
                         <h2>${post.Title}</h2>
                         <p class="date-added">Date Added: ${new Date(
