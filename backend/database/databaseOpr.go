@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"go-server/shared"
 	"log"
+	"sync"
 	"time"
 
 	_ "github.com/lib/pq"
@@ -36,12 +37,56 @@ import (
 // gets all the posts from the database and returns an Array of posts containt
 func PutAllToPostsToArray(db *sql.DB) []shared.Post {
 
-    start := time.Now()
+//	log.Println("CONCURRENT TESTING")
+//	buf := make(chan shared.Post)
+//
+//    var wg sync.WaitGroup
+//	start_single := time.Now()
+//	c := 0
+//	row := db.QueryRow("SELECT COUNT(*) FROM posts")
+//	if err := row.Scan(&c); err != nil {
+//		if err == sql.ErrNoRows {
+//			log.Println("idk some error")
+//		}
+//	}
+//    log.Println("getting count = ",c)
+//
+//	concurrentPosts := []shared.Post{}
+//	go func() {
+//		for item := range buf {
+//            wg.Done()
+//			concurrentPosts = append(concurrentPosts, item)
+//		}
+//	}()
+//
+//	//fetching all at once with go routines
+//	for i := 0; i < c; i++ {
+//		go func() {
+//            wg.Add(1)
+//			var article shared.Post
+//			row := db.QueryRow("SELECT * FROM posts LIMIT 1 OFFSET %d", i)
+//			if err := row.Scan(&article.ID, &article.Title, &article.Url, &article.Body, &article.Date); err != nil {
+//				if err == sql.ErrNoRows {
+//					log.Println("idk some error")
+//				}
+//			}
+//			buf <- article
+//		}()
+//	}
+//    wg.Wait()
+//	time_taken_conc := time.Since(start_single)
+//	log.Println("time taken concurrent go ", time_taken_conc)
+//    log.Println(concurrentPosts)
+//	log.Println("CONCURRENT TESTING DONE, resuming normal operations")
+
+	start := time.Now()
+
 	rows, err := db.Query("SELECT * FROM posts")
 	if err != nil {
 		log.Println("Could not fetch rows:", err)
 	}
 	defer rows.Close()
+
 	allPosts := []shared.Post{}
 
 	for rows.Next() {
@@ -54,14 +99,13 @@ func PutAllToPostsToArray(db *sql.DB) []shared.Post {
 		allPosts = append(allPosts, article)
 	}
 
-
 	// Check for any error after finishing the iteration
 	if err = rows.Err(); err != nil {
 		log.Fatalln("Error iterating over rows:", err)
 	}
-    time_taken := time.Since(start)
+	time_taken := time.Since(start)
 
-    log.Println("THE DATABASE FETCH OPERATION TOOK ",time_taken )
+	log.Println("THE DATABASE FETCH OPERATION TOOK ", time_taken)
 	return allPosts
 }
 
@@ -113,4 +157,3 @@ func DelPost(db *sql.DB, id int) {
 
 	}
 }
-

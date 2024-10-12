@@ -11,3 +11,8 @@ sudo docker run --env-file .env -p 8080:8080 artechles-test-image
 
 database fetch operation takes 320ms
 lets see after go routines
+
+
+in deployment we see that db fetch from go takes 1.77 seconds
+fetch from js takes 2.139 seconds (includes the fetch time from go backend)
+so i think go routines will help 
