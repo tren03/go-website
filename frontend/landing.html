@@ -156,6 +156,12 @@
                 z-index: 9999;
             }
 
+            .loading {
+                height: 50px;
+                width: auto;
+
+            }
+
             /* Responsive styles */
         </style>
     </head>
@@ -190,6 +196,12 @@
                 The graph looks cool right?
             </p>
 
+            <img
+                class="loading"
+                src="/assets/loading-dog-final.gif"
+                alt="ACSCII ART"
+            />
+
             <div class="commit-history-container">
                 <div id="cal-heatmap">
                     <script type="text/javascript">
@@ -211,9 +223,16 @@
                                         js_date.getTime() / 1000,
                                     );
                                     console.log("unixtime ", unix_time);
+
+                                    const loadingEle =
+                                        document.getElementsByClassName(
+                                            "loading",
+                                        )[0];
+                                    loadingEle.remove();
                                     return;
                                 }
 
+                                console.log("Delayed for 5 second.");
                                 const response = await fetch("/posts");
                                 if (!response.ok) {
                                     throw new Error(
@@ -226,6 +245,12 @@
                                     "cachedPosts-artechcles",
                                     JSON.stringify(posts),
                                 ); // Cache the response in sessionStorage
+
+                                const loadingEle =
+                                    document.getElementsByClassName(
+                                        "loading",
+                                    )[0];
+                                loadingEle.remove();
                             } catch (err) {
                                 console.log(
                                     "error during time list request: ",
@@ -269,7 +294,7 @@
                                     window.innerWidth < 768 ? 4 : 6;
                                 var tilesize =
                                     window.innerWidth < 768 ? 10 : 15;
-                                console.log(monthsToShow)
+                                console.log(monthsToShow);
                                 const data = await GetTimeList();
 
                                 var cal = new CalHeatMap();
@@ -311,7 +336,9 @@
                         //  });
                         window.onload = function () {
                             const gopherGif =
-                                document.getElementsByClassName("gopher-gif")[0];
+                                document.getElementsByClassName(
+                                    "gopher-gif",
+                                )[0];
 
                             if (!gopherGif) {
                                 console.error("Image element not found!");
@@ -326,7 +353,7 @@
 
                             // Optional: Add mouseout event to revert back to the original GIF
                             gopherGif.addEventListener("mouseout", () => {
-                                console.log("mouse out1")
+                                console.log("mouse out1");
                                 gopherGif.src = "/assets/dancing-gopher.gif"; // Original GIF
                             });
                         };
@@ -342,6 +369,11 @@
 
         <!-- Particle JS Configuration -->
         <script>
+            if (typeof particlesJS === "undefined") {
+                console.error("particles.js is not loaded!");
+            } else {
+                console.log("particles.js is loaded successfully.");
+            }
             particlesJS("particles-js", {
                 particles: {
                     number: {
