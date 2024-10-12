@@ -1,3 +1,0 @@
-
-
-let body = document.getRootNode()
